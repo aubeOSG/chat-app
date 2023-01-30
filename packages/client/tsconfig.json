@@ -1,0 +1,12 @@
+{
+  "extends": "@chat-app/config/tsconfig",
+  "compilerOptions": {
+    "types": ["@chat-app/config/src/typings"],
+    "outDir": "dist",
+    "noEmit": false,
+    "declaration": false,
+    "declarationMap": false
+  },
+  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./types/*.d.ts"],
+  "exclude": ["./scripts/**/*.js"]
+}

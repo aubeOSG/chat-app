@@ -1,0 +1,9 @@
+{
+  "extends": "./src/typings/tsconfig.base.json",
+  "references": [
+    {
+      "path": "./src/typings/tsconfig.json"
+    }
+  ],
+  "exclude": ["./src/webpack.common.js"]
+}

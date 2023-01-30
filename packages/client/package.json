@@ -1,0 +1,53 @@
+{
+  "name": "@chat-app/client",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prestart": "rimraf dist",
+    "start": "parcel watch --target app --no-cache"
+  },
+  "targets": {
+    "app": {
+      "source": "./src/index.html",
+      "context": "browser",
+      "isLibrary": false,
+      "distDir": "./dist",
+      "publicUrl": "/public"
+    }
+  },
+  "eslintConfig": {
+    "extends": "@chat-app/config"
+  },
+  "prettier": "@chat-app/config/prettier",
+  "stylelint": {
+    "extends": "@chat-app/config/stylelint",
+    "rules": {
+      "scss/at-extend-no-missing-placeholder": null
+    }
+  },
+  "devDependencies": {
+    "@chat-app/config": "^0.0.1",
+    "@parcel/packager-ts": "2.8.3",
+    "@parcel/transformer-sass": "2.8.3",
+    "@parcel/transformer-typescript-types": "2.8.3",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "eslint": "^8.33.0",
+    "parcel": "^2.8.3",
+    "postcss": "^8.4.21",
+    "postcss-import": "^15.1.0",
+    "postcss-modules": "^4.3.0",
+    "prettier": "^2.8.3",
+    "process": "^0.11.10",
+    "rimraf": "^4.1.2",
+    "stylelint": "^14.16.1",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.0"
+  }
+}
