@@ -1,0 +1,9 @@
+{
+  "name": "chat-app",
+  "version": "0.0.1",
+  "main": "src/app/index.ts",
+  "repository": "https://github.com/aubeOSG/chat-app.git",
+  "author": "aubeOSG <caube@osg.ca>",
+  "license": "MIT",
+  "private": true
+}
