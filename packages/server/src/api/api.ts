@@ -14,7 +14,7 @@ export const init = (app: Application) => {
   const server = http.createServer(app);
   const io = new Server(server, {
     cors: {
-      origin: config.mode === 'development' ? `http://localhost:${config.port}` : '',
+      origin: `http://localhost:${config.port}`,
       methods: ['GET', 'POST']
     }
   });
