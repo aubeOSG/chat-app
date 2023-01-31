@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "prewatch": "rimraf dist",
-    "watch": "parcel watch --target app --no-cache"
+    "watch": "parcel watch --target app --no-cache",
+    "prebuild": "rimraf dist",
+    "build": "parcel build --target app --no-cache"
   },
   "targets": {
     "app": {
