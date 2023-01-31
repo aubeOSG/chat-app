@@ -24,15 +24,23 @@ export const Content = () => {
     setNewMessage('');
   };
 
-  const updateNewMessage = (ev: React.ChangeEvent<HTMLInputElement>) => {
+  const updateNewMessage = (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
     const val = ev.currentTarget.value;
 
     setNewMessage(val);
   };
 
-  const handleInputNewMessage = (ev: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleInputNewMessage = (
+    ev: React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
     switch (ev.key) {
       case 'Enter':
+        if (ev.ctrlKey || ev.metaKey) {
+          return;
+        }
+
+        ev.stopPropagation();
+        ev.preventDefault();
         sendNewMessage();
         break;
       case 'Escape':
@@ -122,7 +130,8 @@ export const Content = () => {
         <main>
           {userList &&
             userList.map((user: User, idx: number) => {
-              const classes = me && user.id === me.id ? 'current-user' : '';
+              const classes =
+                me && user.id === me.id ? 'user current-user' : 'user';
 
               return (
                 <div key={idx} className={classes}>
@@ -139,21 +148,26 @@ export const Content = () => {
         <main>
           {messageList &&
             messageList.map((msg: Message, idx: number) => {
+              const classes =
+                'message__user ' +
+                (me && msg.userId === me.id ? 'user current-user' : 'user');
+
               return (
-                <div key={idx}>
-                  <div>{msg.content}</div>
-                  <div data-user-id={msg.userId}>{msg.userName}</div>
+                <div className="message" key={idx}>
+                  <div className="message__content">{msg.content}</div>
+                  <div className={classes} data-user-id={msg.userId}>
+                    {msg.userName}
+                  </div>
                 </div>
               );
             })}
         </main>
         <footer>
-          <input
-            type="text"
+          <textarea
             value={newMessage}
             onChange={updateNewMessage}
             onKeyDown={handleInputNewMessage}
-          />
+          ></textarea>
         </footer>
       </section>
     </>
