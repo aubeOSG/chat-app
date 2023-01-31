@@ -5,8 +5,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prestart": "rimraf dist",
-    "start": "parcel watch --target app --no-cache"
+    "prewatch": "rimraf dist",
+    "watch": "parcel watch --target app --no-cache"
   },
   "targets": {
     "app": {

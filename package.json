@@ -7,13 +7,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "lerna run build --include-dependencies && yarn workspace @chat-app/server run start"
+    "start": "concurrently \"lerna run watch --include-dependencies\" \"yarn workspace @chat-app/server run start\""
   },
   "workspaces": [
     "config",
     "packages/*"
   ],
   "devDependencies": {
+    "concurrently": "^7.6.0",
     "lerna": "^6.4.1"
   }
 }

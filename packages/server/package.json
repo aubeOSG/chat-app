@@ -9,10 +9,9 @@
   "module": "./dist/module.js",
   "types": "dist/types.d.ts",
   "scripts": {
-    "serve": "parcel watch --target main --no-cache",
-    "reload": "wait-on ./dist/main.js && nodemon --watch ./dist/main.js --exec node ./dist/main.js",
-    "prestart": "rimraf dist",
-    "start": "concurrently \"yarn serve\" \"yarn reload\""
+    "prewatch": "rimraf dist",
+    "watch": "parcel watch --target main --no-cache",
+    "start": "wait-on ./dist/main.js && nodemon --watch ./dist/main.js --exec node ./dist/main.js"
   },
   "targets": {
     "main": {
@@ -33,7 +32,6 @@
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.16",
     "@types/node": "^18.11.18",
-    "concurrently": "^7.6.0",
     "eslint": "^8.33.0",
     "nodemon": "^2.0.20",
     "parcel": "^2.8.3",
