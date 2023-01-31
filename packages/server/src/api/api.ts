@@ -1,10 +1,15 @@
 import http from 'http';
-import { Application } from 'express';
+import { Application, Router } from 'express';
 import { Server } from 'socket.io';
 import { config } from '../config';
-import { init as lobbyInit } from './lobby';
+import { registerEndpointAll } from './api-register';
+import * as lobby from './lobby';
+import * as users from './users';
+
+export const Route = '/api';
 
 export const init = (app: Application) => {
+  const router = Router();
   const server = http.createServer(app);
   const io = new Server(server, {
     cors: {
@@ -13,7 +18,9 @@ export const init = (app: Application) => {
     }
   });
 
-  lobbyInit(app, io);
+  lobby.init(app, io);
+  registerEndpointAll(router, users.API);
+  app.use(Route, router);
 
   server.listen(config.socket, () => {
     console.log(`socket listening on: ${config.socket}`);

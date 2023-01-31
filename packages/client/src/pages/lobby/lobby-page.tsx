@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
+import { users, User } from '../../models';
 
 export const Route = '/lobby';
 const socket = io(`http://${window.location.hostname}:3000`);
@@ -7,10 +8,32 @@ const socket = io(`http://${window.location.hostname}:3000`);
 export const Content = () => {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [lastPing, setLastPing] = useState('');
+  const [userList, setUserList] = useState<Array<User>>([]);
+  const userListProgress = useRef(false);
 
   useEffect(() => {
+    const getUsers = () => {
+      if (userListProgress.current) {
+        return;
+      }
+
+      userListProgress.current = true;
+
+      users.api
+        .list()
+        .then((res) => {
+          userListProgress.current = false;
+          setUserList(res.data.users);
+        })
+        .catch((e) => {
+          userListProgress.current = false;
+          console.error('user list error', e);
+        });
+    };
+
     socket.on('connect', () => {
       setIsConnected(true);
+      getUsers();
     });
 
     socket.on('disconnect', () => {

@@ -7,7 +7,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "concurrently \"lerna run watch --include-dependencies\" \"yarn workspace @chat-app/server run start\""
+    "start:dev": "concurrently \"lerna run watch --include-dependencies\" \"yarn workspace @chat-app/server run start:dev\""
   },
   "workspaces": [
     "config",

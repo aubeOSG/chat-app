@@ -11,7 +11,7 @@
   "scripts": {
     "prewatch": "rimraf dist",
     "watch": "parcel watch --target main --no-cache",
-    "start": "wait-on ./dist/main.js && nodemon --watch ./dist/main.js --exec node ./dist/main.js"
+    "start:dev": "wait-on ./dist/main.js && nodemon --watch ./dist/main.js --exec node ./dist/main.js"
   },
   "targets": {
     "main": {
