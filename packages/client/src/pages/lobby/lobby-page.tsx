@@ -36,7 +36,7 @@ export const Content = () => {
     <>
       <section className="sidebar">Sidebar</section>
       <section className="content">
-        <p>Connected: {isConnected}</p>
+        <p>Connected: {`${isConnected}`}</p>
         <p>Last Ping: {lastPing || '-'}</p>
         <button onClick={sendPing}>Send Ping</button>
       </section>
