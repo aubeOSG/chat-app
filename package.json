@@ -1,6 +1,6 @@
 {
   "name": "@chat-app/root",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "repository": "https://github.com/aubeOSG/chat-app.git",
   "author": "aubeOSG <caube@osg.ca>",
   "license": "MIT",
@@ -8,8 +8,8 @@
   "type": "module",
   "scripts": {
     "start:dev": "concurrently \"lerna run watch --include-dependencies\" \"yarn workspace @chat-app/server run start:dev\"",
-    "build": "yarn workspace @chat-app/client run build && yarn workspace @chat-app/server run build",
-    "prestart": "yarn build",
+    "build": "lerna run build --include-dependencies",
+    "heroku-postbuild": "yarn workspace @chat-app/client run build && yarn workspace @chat-app/server run build",
     "start": "yarn workspace @chat-app/server run start"
   },
   "workspaces": [
@@ -17,10 +17,33 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@parcel/packager-ts": "2.8.3",
+    "@parcel/transformer-typescript-types": "2.8.3",
     "concurrently": "^7.6.0",
-    "lerna": "^6.4.1"
+    "lerna": "^6.4.1",
+    "parcel": "^2.8.3",
+    "postcss": "^8.4.21",
+    "postcss-import": "^15.1.0",
+    "postcss-modules": "^4.3.0",
+    "process": "^0.11.10",
+    "rimraf": "^4.1.2",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "axios": "^1.3.0",
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.0",
+    "socket.io": "^4.5.4",
+    "socket.io-client": "^4.5.4"
   },
   "engines": {
+    "npm": ">=8.0.0",
     "node": "16.15.1"
-  }
+  },
+  "packageManager": "yarn@1.22.19"
 }
