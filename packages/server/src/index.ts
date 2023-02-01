@@ -17,7 +17,8 @@ api.init(app, host);
 routes.init(app);
 
 console.log('Config: \n', JSON.stringify(config, null, 2));
-console.log('port', process.env.PORT, process.env['PORT'], (process.env.PORT || 5000), (process.env['PORT'] || 5000));
+const envVars = JSON.parse(JSON.stringify(process.env));
+console.log('port', process.env.PORT, envVars.PORT, (process.env.PORT || 5000), (envVars.PORT || 5000));
 
 app.listen(config.port, () => {
 
