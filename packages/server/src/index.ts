@@ -16,9 +16,6 @@ app.use(bodyParser.json());
 api.init(app, host);
 routes.init(app);
 
-console.log('Config: \n', JSON.stringify(config, null, 2));
-console.log('port', process.env.PORT, process.env['PORT']);
-
 app.listen(config.port, () => {
 
   if (config.mode === 'development') {
