@@ -1,10 +1,9 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
+const envVars = JSON.parse(JSON.stringify(process.env));
 
 export const config = {
-  mode: process.env.NODE_ENV || 'development',
-  port: process.env.PORT || 5000,
-  socket: process.env.SOCKET || 3000,
+  mode: envVars.NODE_ENV || 'development',
+  port: envVars.PORT || 5000,
+  socket: envVars.SOCKET || 3000,
 };
 
 export default config;
