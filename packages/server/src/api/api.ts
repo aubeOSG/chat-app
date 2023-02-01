@@ -24,9 +24,13 @@ export const init = (app: Application, host: string) => {
   registerEndpointAll(router, messages.API);
   app.use(Route, router);
 
-  server.listen(config.socket, host, () => {
+  const socketListener = () => {
     console.log(`socket listening on: ${config.socket}`);
-  });
+  };
+
+  if (config.mode === 'development') {
+    server.listen(config.socket, host, socketListener);
+  }
 };
 
 export default {
