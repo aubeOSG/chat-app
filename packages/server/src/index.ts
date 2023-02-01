@@ -21,6 +21,6 @@ app.listen(config.port, host, () => {
   if (config.mode === 'development') {
     console.info(`Chat App running at http://localhost:${config.port}/app`);
   } else {
-    console.info(`Chat App running on ${JSON.stringify(config, null, 2)}`);
+    console.info(`Chat App running on ${config.port}`);
   }
 });

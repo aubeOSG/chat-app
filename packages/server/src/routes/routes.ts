@@ -6,8 +6,6 @@ const staticPath = path.join(process.cwd(), '../client/dist');
 const appPath = path.join(staticPath, 'index.html');
 
 export const init = (app: express.Application) => {
-  console.log('staticPath', staticPath);
-  console.log('path exists', fs.existsSync(staticPath));
   console.log('appPath', appPath, fs.existsSync(appPath));
   app.use('/public', express.static(staticPath));
 
