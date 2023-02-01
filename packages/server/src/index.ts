@@ -16,5 +16,10 @@ api.init(app);
 routes.init(app);
 
 app.listen(config.port, () => {
-  console.info(`Chat App running at http://localhost:${config.port}/app`);
+
+  if (config.mode === 'development') {
+    console.info(`Chat App running at http://localhost:${config.port}/app`);
+  } else {
+    console.info(`Chat App running on ${JSON.stringify(config, null, 2)}`);
+  }
 });

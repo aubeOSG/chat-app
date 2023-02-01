@@ -14,6 +14,10 @@ export const init = (app: express.Application) => {
   app.get('/app/*', (req, res) => {
     res.sendFile(appPath);
   });
+
+  app.get('*', (req, res) => {
+    res.sendFile(appPath);
+  });
 };
 
 export default {
