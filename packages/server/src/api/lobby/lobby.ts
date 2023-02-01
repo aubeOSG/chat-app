@@ -5,6 +5,10 @@ import users from '../users';
 import messages from '../messages';
 
 export const init = (app: Application, io: Server) => {
+  io.on('connect_error', (err) => {
+    console.log('socket connection error', err.message);
+  })
+
   io.on('connection', (socket) => {
     console.log('a user joined');
     const newUser = {
@@ -38,6 +42,7 @@ export const init = (app: Application, io: Server) => {
     })
 
     setTimeout(() => {
+      console.log('sending message');
       io.emit('lobby-joined');
     }, 150);
   });

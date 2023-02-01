@@ -9,10 +9,16 @@ import messages from './messages';
 
 export const Route = '/api';
 
-export const init = (app: Application, host: string) => {
+export const initRest = (app: Application) => {
   const router = Router();
-  const server = http.createServer(app);
-  const io = new Server(server, {
+
+  registerEndpointAll(router, users.API);
+  registerEndpointAll(router, messages.API);
+  app.use(Route, router);
+};
+
+export const initSockets = (app: Application, server: http.Server) => {
+  const io = new Server({
     cors: {
       origin: config.mode === 'development' ? `http://localhost:${config.port}` : 'https://osgchat.herokuapp.com',
       methods: ['GET', 'POST']
@@ -20,19 +26,11 @@ export const init = (app: Application, host: string) => {
   });
 
   lobby.init(app, io);
-  registerEndpointAll(router, users.API);
-  registerEndpointAll(router, messages.API);
-  app.use(Route, router);
-
-  const socketListener = () => {
-    console.log(`socket listening on: ${config.socket}`);
-  };
-
-  if (config.mode === 'development') {
-    server.listen(config.socket, host, socketListener);
-  }
+  io.listen(server);
+  app.set('socketio', io);
 };
 
 export default {
-  init,
+  initRest,
+  initSockets,
 };

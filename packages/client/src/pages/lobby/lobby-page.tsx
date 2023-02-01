@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import { users, User, messages, Message } from '../../models';
 
 export const Route = '/lobby';
-const socket = io(`http://${window.location.hostname}:3000`);
+const socket = io();
 
 export const Content = () => {
   const [isConnected, setIsConnected] = useState(socket.connected);
@@ -15,12 +15,15 @@ export const Content = () => {
   const [newMessage, setNewMessage] = useState<string>('');
 
   const sendNewMessage = () => {
-    socket.emit('message-send', {
+    const messageData = {
       message: {
         userId: me?.id,
         content: newMessage,
       },
-    });
+    };
+
+    console.debug('sending message', messageData);
+    socket.emit('message-send', messageData);
     setNewMessage('');
   };
 
@@ -60,6 +63,7 @@ export const Content = () => {
       users.api
         .list()
         .then((res) => {
+          console.debug('users list', res.data);
           userListProgress.current = false;
           setUserList(res.data.users);
         })
@@ -78,6 +82,7 @@ export const Content = () => {
       messages.api
         .list()
         .then((res) => {
+          console.debug('messages received', res.data);
           messageListProgress.current = false;
           setMessageList(res.data.messages);
         })
@@ -88,28 +93,34 @@ export const Content = () => {
     };
 
     socket.on('connect', () => {
+      console.debug('connected');
       setIsConnected(true);
       getUsers();
       getMessages();
     });
 
     socket.on('disconnect', () => {
+      console.debug('disconnect');
       setIsConnected(false);
     });
 
     socket.on('lobby-joined', () => {
+      console.debug('lobby joined');
       getUsers();
     });
 
     socket.on('lobby-left', () => {
+      console.debug('lobby left');
       getUsers();
     });
 
     socket.on('user-info', (data) => {
+      console.debug('user info');
       setMe(data.user);
     });
 
     socket.on('message-new', (data) => {
+      console.debug('new message', data);
       setMessageList(messageList.concat([data.message]));
     });
 
