@@ -9,7 +9,7 @@ import messages from './messages';
 
 export const Route = '/api';
 
-export const init = (app: Application) => {
+export const init = (app: Application, host: string) => {
   const router = Router();
   const server = http.createServer(app);
   const io = new Server(server, {
@@ -24,7 +24,7 @@ export const init = (app: Application) => {
   registerEndpointAll(router, messages.API);
   app.use(Route, router);
 
-  server.listen(config.socket, () => {
+  server.listen(config.socket, host, () => {
     console.log(`socket listening on: ${config.socket}`);
   });
 };

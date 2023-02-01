@@ -13,7 +13,7 @@ app.use(cors({ credentials: true, origin: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-api.init(app);
+api.init(app, host);
 routes.init(app);
 
 app.listen(config.port, host, () => {
