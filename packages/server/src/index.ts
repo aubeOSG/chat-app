@@ -16,9 +16,9 @@ app.use(bodyParser.json());
 api.init(app, host);
 routes.init(app);
 
-console.log('Config: \n', JSON.stringify(config, null, 2));
+console.log('Config: \n', JSON.stringify(config, null, 2), '\n', JSON.stringify(process.env, null, 2));
 
-app.listen(config.port, host, () => {
+app.listen(config.port, () => {
 
   if (config.mode === 'development') {
     console.info(`Chat App running at http://localhost:${config.port}/app`);
