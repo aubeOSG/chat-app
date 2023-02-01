@@ -1,12 +1,10 @@
 import path from 'path';
-import fs from 'fs';
 import express from 'express';
 
 const staticPath = path.join(process.cwd(), '../client/dist');
 const appPath = path.join(staticPath, 'index.html');
 
 export const init = (app: express.Application) => {
-  console.log('appPath', appPath, fs.existsSync(appPath));
   app.use('/public', express.static(staticPath));
 
   app.get('/app', (req, res) => {
@@ -18,7 +16,7 @@ export const init = (app: express.Application) => {
   });
 
   app.get('*', (req, res) => {
-    res.sendFile(appPath);
+    res.redirect('/app');
   });
 };
 
