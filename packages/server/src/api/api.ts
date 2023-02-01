@@ -14,7 +14,7 @@ export const init = (app: Application) => {
   const server = http.createServer(app);
   const io = new Server(server, {
     cors: {
-      origin: `http://localhost:${config.port}`,
+      origin: config.mode === 'development' ? `http://localhost:${config.port}` : 'https://osgchat.herokuapp.com',
       methods: ['GET', 'POST']
     }
   });
