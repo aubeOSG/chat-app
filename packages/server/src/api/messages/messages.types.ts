@@ -1,6 +1,12 @@
+import { UserInfo } from '../users';
+
 export type Message = {
   datetime: string;
-  userId: string;
-  userName: string;
+  user: {
+    id: string;
+    info: UserInfo;
+  }
   content: string;
+  roomId?: string;
+  messageId?: string;
 };

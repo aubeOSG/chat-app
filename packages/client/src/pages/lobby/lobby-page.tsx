@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import { users, User, messages, Message } from '../../models';
+import { Avatar } from '../../components';
 
 export const Route = '/lobby';
 const socket = io();
@@ -146,7 +147,8 @@ export const Content = () => {
 
               return (
                 <div key={idx} className={classes}>
-                  {user.name}
+                  <Avatar>{user.info.avatar.key}</Avatar>
+                  {user.info.name}
                 </div>
               );
             })}
@@ -159,15 +161,19 @@ export const Content = () => {
         <main>
           {messageList &&
             messageList.map((msg: Message, idx: number) => {
-              const classes =
-                'message__user ' +
-                (me && msg.userId === me.id ? 'user current-user' : 'user');
+              const classes = me && msg.user.id === me.id ? 'current-user' : '';
 
               return (
-                <div className="message" key={idx}>
-                  <div className="message__content">{msg.content}</div>
-                  <div className={classes} data-user-id={msg.userId}>
-                    {msg.userName}
+                <div className={`message ${classes}`} key={idx}>
+                  <div className="message__body">
+                    <div className="message__content">{msg.content}</div>
+                    <div
+                      className="message__user user"
+                      data-user-id={msg.user.id}
+                    >
+                      <Avatar>{msg.user.info.avatar.key}</Avatar>
+                      {msg.user.info.name}
+                    </div>
                   </div>
                 </div>
               );

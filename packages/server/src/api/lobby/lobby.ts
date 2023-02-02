@@ -13,7 +13,8 @@ export const init = (app: Application, io: Server) => {
     console.log('a user joined');
     const newUser = {
       id: socket.id,
-      name: `Anonymous User ${users._users.length + 1}`
+      info: users._generateInfo(),
+      rooms: [],
     };
 
     users._add(newUser);
@@ -31,8 +32,10 @@ export const init = (app: Application, io: Server) => {
       const userIdx = utils.list.indexBy(users._users, 'id', userId);
       const user = users._users[userIdx];
       const newMessage = {
-        userId: user.id,
-        userName: user.name,
+        user: {
+          id: user.id,
+          info: user.info,
+        },
         datetime: new Date().toISOString(),
         content: data.message.content,
       };

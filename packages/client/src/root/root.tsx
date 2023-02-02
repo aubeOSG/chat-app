@@ -24,7 +24,7 @@ export const Root = () => {
   return (
     <BrowserRouter basename="/app">
       <section className="wrapper">
-        <main className="container">
+        <main className="container" data-color-mode="dark">
           <AppRoutes />
         </main>
       </section>
