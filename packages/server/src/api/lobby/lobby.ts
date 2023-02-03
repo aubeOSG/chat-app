@@ -20,7 +20,7 @@ export const init = (app: Application, io: Server) => {
     users._add(newUser);
 
     socket.on('disconnect', () => {
-      console.log('a user left')
+      console.log('a user left', newUser.id);
       users._remove(newUser.id);
       io.emit('lobby-left');
     });
@@ -45,7 +45,7 @@ export const init = (app: Application, io: Server) => {
     })
 
     setTimeout(() => {
-      console.log('sending message');
+      console.log('lobby joined by', newUser.id);
       io.emit('lobby-joined');
     }, 150);
   });

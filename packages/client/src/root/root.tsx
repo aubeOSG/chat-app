@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { pages } from '../pages';
+import { socketer } from '../services';
+import { lobby, users } from '../models';
 
 export const AppRoutes = () => {
   const pageNames = Object.keys(pages);
@@ -21,6 +23,28 @@ export const AppRoutes = () => {
 };
 
 export const Root = () => {
+  socketer.hooks.useProcessor();
+  users.hooks.useProcessor();
+  lobby.hooks.useProcessor();
+
+  const isConnected = socketer.hooks.useConnection();
+
+  useEffect(() => {
+    lobby.hooks.addEvents();
+    users.hooks.addEvents();
+    socketer.hooks.addEvents();
+
+    return () => {
+      socketer.hooks.cleanupEvents();
+      lobby.hooks.cleanupEvents();
+      users.hooks.cleanupEvents();
+    };
+  }, []);
+
+  if (!isConnected) {
+    return <section className="wrapper"></section>;
+  }
+
   return (
     <BrowserRouter basename="/app">
       <section className="wrapper">
