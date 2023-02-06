@@ -14,7 +14,7 @@ export const _add = (message: Message) => {
   _messages.push(message);
 };
 
-export const API: RegisterEndpoints = {
+export const endpoints: RegisterEndpoints = {
   list: {
     name: '/messages',
     method: 'GET',
@@ -24,7 +24,7 @@ export const API: RegisterEndpoints = {
 
 export default {
   _messages,
-  API,
+  endpoints,
   list,
   _add,
 };

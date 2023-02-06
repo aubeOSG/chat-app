@@ -64,7 +64,7 @@ export const _remove = (userId: string) => {
   _users.splice(userIdx, 1);
 };
 
-export const API: RegisterEndpoints = {
+export const endpoints: RegisterEndpoints = {
   list: {
     name: '/users',
     method: 'GET',
@@ -75,7 +75,7 @@ export const API: RegisterEndpoints = {
 export default {
   _users,
   _generateInfo,
-  API,
+  endpoints,
   list,
   _add,
   _remove,

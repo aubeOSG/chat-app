@@ -1,7 +1,12 @@
-import * as Messages from './messages';
+import * as API from './messages-api';
+import * as Socket from './messages-socket';
 
 export * from './messages.types';
 
-export const messages = Messages;
+export const api = API;
+export const socket = Socket;
 
-export default Messages;
+export default {
+  api,
+  socket,
+};
