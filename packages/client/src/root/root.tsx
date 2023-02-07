@@ -1,11 +1,25 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { pages } from '../pages';
 import { socketer } from '../services';
-import { lobby, users } from '../models';
+import { lobby, users, rooms } from '../models';
 
 export const AppRoutes = () => {
+  const navigate = useNavigate();
   const pageNames = Object.keys(pages);
+  const activeRoom = rooms.hooks.useActiveRoom();
+
+  useEffect(() => {
+    console.log('activeRoom', activeRoom);
+    if (activeRoom.id) {
+      navigate(`${pages.room.page.Route.replace(':roomId', activeRoom.id)}`);
+    } else {
+      navigate(pages.lobby.page.Route);
+    }
+  }, [activeRoom.id]);
+
+  console.log('activeRoom', activeRoom);
 
   return (
     <Routes>
@@ -26,18 +40,21 @@ export const Root = () => {
   socketer.hooks.useProcessor();
   users.hooks.useProcessor();
   lobby.hooks.useProcessor();
+  rooms.hooks.useProcessor();
 
   const isConnected = socketer.hooks.useConnection();
 
   useEffect(() => {
     lobby.hooks.addEvents();
     users.hooks.addEvents();
+    rooms.hooks.addEvents();
     socketer.hooks.addEvents();
 
     return () => {
       socketer.hooks.cleanupEvents();
       lobby.hooks.cleanupEvents();
       users.hooks.cleanupEvents();
+      rooms.hooks.cleanupEvents();
     };
   }, []);
 
@@ -48,7 +65,7 @@ export const Root = () => {
   return (
     <BrowserRouter basename="/app">
       <section className="wrapper">
-        <main className="container" data-color-mode="dark">
+        <main className="container">
           <AppRoutes />
         </main>
       </section>

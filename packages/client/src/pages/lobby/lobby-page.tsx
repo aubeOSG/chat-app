@@ -1,6 +1,9 @@
-import React, { useEffect, useRef } from 'react';
-import { users, User, lobby } from '../../models';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { users, User, lobby, rooms, Room } from '../../models';
 import { Avatar } from '../../components';
+import { overlays } from './components';
+import { Route as roomRoute } from '../room/room-page';
 
 export const Route = '/lobby';
 
@@ -9,6 +12,34 @@ export const Content = () => {
   const me = users.hooks.useMe();
   const userListProgress = useRef(false);
   const userList = users.hooks.useUsers();
+  const roomsProgress = useRef(false);
+  const roomList = rooms.hooks.useRooms();
+  const [isOpenCreateRoom, setIsOpenCreateRoom] = useState(false);
+  const [roomName, setRoomName] = useState<string>('');
+
+  const joinRoom = (room: Room) => {
+    console.log('joining room');
+  };
+
+  const createRoom = () => {
+    setIsOpenCreateRoom(true);
+  };
+
+  const closeCreateRoom = (roomName?: string) => {
+    setIsOpenCreateRoom(false);
+
+    if (!roomName) {
+      return;
+    }
+
+    setRoomName(roomName);
+  };
+
+  useEffect(() => {
+    if (roomName) {
+      rooms.api.create(roomName);
+    }
+  }, [roomName]);
 
   useEffect(() => {
     const getUsers = () => {
@@ -31,7 +62,28 @@ export const Content = () => {
         });
     };
 
+    const getRooms = () => {
+      if (roomsProgress.current) {
+        return;
+      }
+
+      roomsProgress.current = true;
+
+      rooms.api
+        .list()
+        .then((res) => {
+          console.debug('rooms list', res.data);
+          roomsProgress.current = false;
+          rooms.hooks.setRooms(res.data.rooms);
+        })
+        .catch((e) => {
+          roomsProgress.current = false;
+          console.error('room list error', e);
+        });
+    };
+
     getUsers();
+    getRooms();
   }, [isJoined]);
 
   return (
@@ -58,9 +110,32 @@ export const Content = () => {
       <section className="content">
         <header>
           <h2>Rooms</h2>
+
+          <button className="btn btn-primary" onClick={createRoom}>
+            Create
+          </button>
         </header>
-        <main>Room List</main>
+        <main className="room-list">
+          {roomList &&
+            roomList.map((room: Room, idx: number) => {
+              return (
+                <div
+                  className="room-link"
+                  key={idx}
+                  onClick={() => joinRoom(room)}
+                >
+                  <Link to={`${roomRoute.replace(':roomId', room.id)}`}>
+                    {room.name}
+                  </Link>
+                </div>
+              );
+            })}
+        </main>
       </section>
+      <overlays.CreateRoom
+        isOpen={isOpenCreateRoom}
+        onClose={closeCreateRoom}
+      ></overlays.CreateRoom>
     </div>
   );
 };

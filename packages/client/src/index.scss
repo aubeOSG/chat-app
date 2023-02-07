@@ -171,6 +171,7 @@ body {
   & footer {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     background-color: var(--color-scale-gray-8);
     padding: 0.5rem;
   }
@@ -252,5 +253,29 @@ body {
       flex-wrap: wrap;
       align-content: flex-start;
     }
+  }
+}
+
+.btn {
+  border: none;
+  padding: 0.5rem 0.75rem;
+  margin: 0.25rem 0.5rem;
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+
+  &-link {
+    background-color: transparent;
+    color: var(--color-scale-white);
+    border-bottom-color: currentColor;
+  }
+
+  &-success {
+    background-color: var(--color-scale-green-5);
+    color: var(--color-scale-white);
+  }
+
+  &-primary {
+    background-color: var(--color-scale-blue-5);
+    color: var(--color-scale-white);
   }
 }

@@ -2,6 +2,7 @@ import * as Users from './users';
 import * as Messages from './messages';
 import * as Avatars from './avatars';
 import * as Lobby from './lobby';
+import * as Rooms from './rooms';
 
 export * from './users/users.types';
 export const users = Users;
@@ -14,9 +15,13 @@ export const avatars = Avatars;
 
 export const lobby = Lobby;
 
+export * from './rooms/rooms.types';
+export const rooms = Rooms;
+
 export default {
   users,
   messages,
   avatars,
   lobby,
+  rooms,
 };
