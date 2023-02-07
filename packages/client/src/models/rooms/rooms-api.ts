@@ -1,4 +1,5 @@
 import { AxiosPromise } from "axios";
+import { User } from '../users';
 import { Room } from './rooms.types';
 import { requester, socketer } from '../../services';
 
@@ -15,6 +16,15 @@ export const create = (name: string) => {
   }
 
   socketer.hooks.io.emit('room-create', { name });
+};
+
+export const join = (room: Room, user: User) => {
+  if (!socketer.hooks.io) {
+    console.warn('unable to join room: sockets not ready');
+    return;
+  }
+
+  socketer.hooks.io.emit('room-join', { room, user });
 };
 
 export default {

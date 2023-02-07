@@ -20,8 +20,22 @@ export const config: StateConfig = {
     addRoom: (state, action) => {
       state.rooms.push(action.payload);
     },
+    updateRoom: (state, action) => {
+      const idx = utils.list.indexBy(state.rooms, 'id', action.payload.id);
+
+      if (idx === -1) {
+        console.error('unable to update room: room not found', action);
+        return;
+      }
+
+      state.rooms.splice(idx, 1, action.payload);
+
+      if (state.activeRoom.id === action.payload.id) {
+        utils.obj.updateObj(state.activeRoom, action.payload);
+      }
+    },
     removeRoom: (state, action) => {
-      const idx = utils.list.indexBy(state.rooms, 'id', action.payload);
+      const idx = utils.list.indexBy(state.rooms, 'id', action.payload.id);
 
       if (idx === -1) {
         console.error('unable to remove room: room not found');
@@ -45,6 +59,7 @@ export const {
   setState,
   setRooms,
   addRoom,
+  updateRoom,
   removeRoom,
   setActiveRoom,
   resetActiveRoom,

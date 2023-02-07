@@ -52,6 +52,47 @@ export const addEvents = () => {
     console.debug('adding new room', req);
     processor.dispatch(state.addRoom(req.data.room));
   });
+
+  socketer.hooks.io.on('room-joined', (req) => {
+    if (!processor.dispatch) {
+      console.warn('unable to add room: processor not ready');
+    }
+
+    if (req.error) {
+      console.error(req.message);
+      return;
+    }
+
+    console.debug('setting active room', req);
+    processor.dispatch(state.setActiveRoom(req.data.room));
+  });
+
+  socketer.hooks.io.on('room-member-joined', (req) => {
+    console.log('member join', req);
+    if (!processor.dispatch) {
+      console.warn('unable to add room: processor not ready');
+    }
+
+    if (req.error) {
+      return;
+    }
+
+    console.debug('adding member to room', req);
+    processor.dispatch(state.updateRoom(req.data.room));
+  });
+
+  socketer.hooks.io.on('room-member-left', (req) => {
+    if (!processor.dispatch) {
+      console.warn('unable to add room: processor not ready');
+    }
+
+    if (req.error) {
+      return;
+    }
+
+    console.debug('removing member from room', req);
+    processor.dispatch(state.updateRoom(req.data.room));
+  });
 };
 
 export const cleanupEvents = () => {
@@ -62,6 +103,9 @@ export const cleanupEvents = () => {
 
   socketer.hooks.io.off('room-created');
   socketer.hooks.io.off('room-new');
+  socketer.hooks.io.off('room-joined');
+  socketer.hooks.io.off('room-member-joined');
+  socketer.hooks.io.off('room-member-left');
 };
 
 export const useState = () => {

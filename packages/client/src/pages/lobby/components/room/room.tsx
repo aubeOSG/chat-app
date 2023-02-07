@@ -82,12 +82,15 @@ export const Room = () => {
       return;
     }
 
+    console.log('room', room);
+    console.log('allUsers', allUsers);
+
     setUserList(
       allUsers.filter((user: User) => {
         return room.userIds.indexOf(user.id) !== -1;
       })
     );
-  }, [room.id, allUsers]);
+  }, [room, allUsers]);
 
   if (!room.id) {
     return <div></div>;

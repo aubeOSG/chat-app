@@ -8,6 +8,7 @@ export const Route = '/lobby';
 export const Content = () => {
   const isJoined = lobby.hooks.useJoined();
   const me = users.hooks.useMe();
+  const activeRoom = rooms.hooks.useActiveRoom();
   const userListProgress = useRef(false);
   const roomsProgress = useRef(false);
   const roomList = rooms.hooks.useRooms();
@@ -16,7 +17,7 @@ export const Content = () => {
   const [isOpenInfo, setIsOpenInfo] = useState(false);
 
   const joinRoom = (room: Room) => {
-    console.log('joining room');
+    rooms.api.join(room, me);
   };
 
   const createRoom = () => {
@@ -108,9 +109,15 @@ export const Content = () => {
             <main className="room-list">
               {roomList &&
                 roomList.map((room: Room, idx: number) => {
+                  let classes = 'room-link';
+
+                  if (activeRoom.id && activeRoom.id === room.id) {
+                    classes += ' current-room';
+                  }
+
                   return (
                     <div
-                      className="room-link"
+                      className={classes}
                       key={idx}
                       onClick={() => joinRoom(room)}
                     >

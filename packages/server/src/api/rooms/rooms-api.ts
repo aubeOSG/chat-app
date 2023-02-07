@@ -25,12 +25,70 @@ export const _add = (roomName: string, user: User) => {
   };
 
   _rooms.push(newRoom);
+
   return {
     error: false,
     data: {
       room: newRoom,
     },
   };
+};
+
+export const _join = (room: Room, user: User) => {
+  const roomIdx = utils.list.indexBy(_rooms, 'id', room.id);
+
+  if (roomIdx === -1) {
+    return {
+      error: true,
+      message: 'unable to join room: room not found',
+    };
+  }
+
+  const userIdx = _rooms[roomIdx].userIds.indexOf(user.id);
+
+  if (userIdx === -1) {
+    _rooms[roomIdx].userIds.push(user.id);
+    room = _rooms[roomIdx];
+  }
+
+  return {
+    error: false,
+    data: {
+      room,
+      user,
+    },
+  }
+};
+
+export const _leave = (room: Room, user: User) => {
+  const roomIdx = utils.list.indexBy(_rooms, 'id', room.id);
+
+  if (roomIdx === -1) {
+    return {
+      error: true,
+      message: 'unable to leave room: room not found',
+    };
+  }
+
+  const userIdx = _rooms[roomIdx].userIds.indexOf(user.id);
+
+  if (userIdx === -1) {
+    return {
+      error: true,
+      message: 'unable to leave room: user not found',
+    };
+  }
+
+  _rooms[roomIdx].userIds.splice(userIdx, 1);
+  room = _rooms[roomIdx];
+
+  return {
+    error: false,
+    data: {
+      room,
+      user,
+    },
+  }
 };
 
 export const _remove = (roomId: string) => {
@@ -71,6 +129,8 @@ export default {
   _rooms,
   endpoints,
   _add,
+  _join,
+  _leave,
   _remove,
   list,
 };

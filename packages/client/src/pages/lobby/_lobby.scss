@@ -35,6 +35,10 @@
     border: 1px solid var(--color-border);
     border-radius: 6px;
 
+    &.current-room {
+      border: 1px solid var(--color-selected);
+    }
+
     a {
       text-decoration: none;
       padding-bottom: 0.5rem;
@@ -49,6 +53,7 @@
   height: 100%;
 
   & header {
+    justify-content: flex-start;
     background-color: var(--color-scale-gray-6);
 
     & .user {
