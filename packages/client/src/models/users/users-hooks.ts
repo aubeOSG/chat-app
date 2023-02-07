@@ -48,6 +48,15 @@ export const addEvents = () => {
     console.debug('updating user', req.data);
     processor.dispatch(state.updateUserList(req.data.user));
   });
+
+  socketer.hooks.io.on('user-new', (req) => {
+    if (!processor.dispatch) {
+      console.warn('unable to update user: processor not ready');
+      return;
+    }
+
+    processor.dispatch(state.setUsers(req.users));
+  });
 };
 
 export const cleanupEvents = () => {
@@ -58,6 +67,7 @@ export const cleanupEvents = () => {
 
   socketer.hooks.io.off('user-info');
   socketer.hooks.io.off('user-updated');
+  socketer.hooks.io.off('user-new');
 };
 
 export const useState = () => {

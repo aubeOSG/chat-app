@@ -11,6 +11,8 @@ export const init = (io: Server, socket: Socket, user: User) => {
       io.emit('user-updated', res);
     }, 150);
   });
+
+  io.emit('user-new', { users: api._users });
 };
 
 export default {
