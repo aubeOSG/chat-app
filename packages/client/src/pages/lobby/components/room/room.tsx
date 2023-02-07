@@ -14,14 +14,13 @@ export const Room = () => {
 
   const sendNewMessage = () => {
     const messageData = {
-      message: {
-        userId: me?.id,
-        content: newMessage,
-      },
+      roomId: room.id,
+      user: me,
+      content: newMessage,
     };
 
     console.debug('sending message', messageData);
-    socketer.hooks.io.emit('message-send', messageData);
+    messages.api.send(messageData);
     setNewMessage('');
   };
 
