@@ -16,7 +16,14 @@ export const Content = () => {
   const [roomName, setRoomName] = useState<string>('');
   const [isOpenInfo, setIsOpenInfo] = useState(false);
 
+  const leaveRoom = () => {
+    if (activeRoom.id) {
+      rooms.api.leave(activeRoom, me);
+    }
+  };
+
   const joinRoom = (room: Room) => {
+    leaveRoom();
     rooms.api.join(room, me);
   };
 
@@ -44,6 +51,7 @@ export const Content = () => {
 
   useEffect(() => {
     if (roomName) {
+      leaveRoom();
       rooms.api.create(roomName);
     }
   }, [roomName]);

@@ -68,7 +68,6 @@ export const addEvents = () => {
   });
 
   socketer.hooks.io.on('room-member-joined', (req) => {
-    console.log('member join', req);
     if (!processor.dispatch) {
       console.warn('unable to add room: processor not ready');
     }
@@ -82,6 +81,7 @@ export const addEvents = () => {
   });
 
   socketer.hooks.io.on('room-member-left', (req) => {
+    console.log('member left', req);
     if (!processor.dispatch) {
       console.warn('unable to add room: processor not ready');
     }

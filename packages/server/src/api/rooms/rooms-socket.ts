@@ -30,7 +30,7 @@ export const init = (io: Server, socket: Socket, user: User) => {
   });
 
   socket.on('room-leave', (data) => {
-    const res = api._join(data.room, data.user);
+    const res = api._leave(data.room, data.user);
 
     if (!res.error) {
       socket.leave(data.room.id);
