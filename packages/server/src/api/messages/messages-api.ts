@@ -9,7 +9,7 @@ import rooms from '../rooms';
 export const _messages: Array<Message> = [];
 
 export const list: express.Handler = (req, res) => {
-  const roomId = req.params.roomId;
+  const roomId = req.query.roomId;
 
   if (!roomId) {
     res.send({

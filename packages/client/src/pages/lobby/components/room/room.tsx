@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { socketer } from '../../../../services';
 import { users, User, messages, Message, rooms } from '../../../../models';
 import { Avatar } from '../../../../components';
 
@@ -8,7 +7,7 @@ export const Room = () => {
   const allUsers = users.hooks.useUsers();
   const room = rooms.hooks.useActiveRoom();
   const [userList, setUserList] = useState<Array<User>>([]);
-  const [messageList, setMessageList] = useState<Array<Message>>([]);
+  const messageList = messages.hooks.useMessages();
   const messageListProgress = useRef(false);
   const [newMessage, setNewMessage] = useState<string>('');
 
@@ -62,7 +61,7 @@ export const Room = () => {
         .then((res) => {
           console.debug('messages received', res.data);
           messageListProgress.current = false;
-          setMessageList(res.data.messages);
+          messages.hooks.setMessages(res.data.messages);
         })
         .catch((e) => {
           messageListProgress.current = false;
@@ -70,19 +69,15 @@ export const Room = () => {
         });
     };
 
-    socketer.hooks.io.on('message-new', (data) => {
-      console.debug('new message', data);
-      setMessageList(messageList.concat([data.message]));
-    });
+    if (room.id) {
+      getMessages();
+    }
   }, [room.id]);
 
   useEffect(() => {
     if (!room.id) {
       return;
     }
-
-    console.log('room', room);
-    console.log('allUsers', allUsers);
 
     setUserList(
       allUsers.filter((user: User) => {

@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { Message } from './messages.types';
 import {
   StateProcessor,
   RootState,
@@ -15,6 +16,10 @@ export const useProcessor = () => {
 };
 
 export const addEvents = () => {
+  if (!processor.dispatch) {
+    console.warn('unable to add events: processor not ready');
+  }
+
   if (!socketer.hooks.io) {
     console.warn('unable to add events: sockets not ready');
     return;
@@ -48,10 +53,19 @@ export const useMessages = () => {
   return useSelector((data: RootState) => data[state.config.name].messages);
 };
 
+export const setMessages = (data: Array<Message>) => {
+  if (!processor.dispatch) {
+    console.warn('unable to set messages: processor not ready');
+  }
+
+  processor.dispatch(state.setMessages(data));
+};
+
 export default {
  useProcessor,
  addEvents,
  cleanupEvents,
  useState,
  useMessages,
+ setMessages,
 };

@@ -14,7 +14,7 @@ export const send = (message: NewMessage) => {
     return;
   }
 
-  socketer.hooks.io.emit('message-new', { message });
+  socketer.hooks.io.emit('message-send', { message });
 };
 
 export default {
