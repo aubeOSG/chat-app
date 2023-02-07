@@ -42,3 +42,24 @@
     }
   }
 }
+
+.chatroom {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  & header {
+    background-color: var(--color-scale-gray-6);
+
+    & .user {
+      padding: 0.15rem;
+      margin-bottom: 0;
+      margin-right: 0.5rem;
+    }
+  }
+
+  & footer {
+    height: 182px;
+    background-color: var(--color-scale-gray-6);
+  }
+}

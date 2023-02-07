@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { users, User, lobby, rooms, Room } from '../../models';
+import { users, lobby, rooms, Room } from '../../models';
 import { Avatar } from '../../components';
-import { overlays } from './components';
-import { Route as roomRoute } from '../room/room-page';
+import components from './components';
 
 export const Route = '/lobby';
 
@@ -11,7 +9,6 @@ export const Content = () => {
   const isJoined = lobby.hooks.useJoined();
   const me = users.hooks.useMe();
   const userListProgress = useRef(false);
-  const userList = users.hooks.useUsers();
   const roomsProgress = useRef(false);
   const roomList = rooms.hooks.useRooms();
   const [isOpenCreateRoom, setIsOpenCreateRoom] = useState(false);
@@ -117,9 +114,7 @@ export const Content = () => {
                       key={idx}
                       onClick={() => joinRoom(room)}
                     >
-                      <Link to={`${roomRoute.replace(':roomId', room.id)}`}>
-                        {room.name}
-                      </Link>
+                      {room.name}
                     </div>
                   );
                 })}
@@ -131,18 +126,18 @@ export const Content = () => {
             </footer>
           </section>
           <section className="content room-view">
-            <div>Chat View</div>
+            <components.Room></components.Room>
           </section>
         </main>
       </section>
-      <overlays.CreateRoom
+      <components.overlays.CreateRoom
         isOpen={isOpenCreateRoom}
         onClose={closeCreateRoom}
-      ></overlays.CreateRoom>
-      <overlays.UserInfo
+      ></components.overlays.CreateRoom>
+      <components.overlays.UserInfo
         isOpen={isOpenInfo}
         onClose={closeInfo}
-      ></overlays.UserInfo>
+      ></components.overlays.UserInfo>
     </div>
   );
 };

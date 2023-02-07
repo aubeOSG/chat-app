@@ -17,6 +17,19 @@ export const config: StateConfig = {
     setRooms: (state, action) => {
       state.rooms = action.payload;
     },
+    addRoom: (state, action) => {
+      state.rooms.push(action.payload);
+    },
+    removeRoom: (state, action) => {
+      const idx = utils.list.indexBy(state.rooms, 'id', action.payload);
+
+      if (idx === -1) {
+        console.error('unable to remove room: room not found');
+        return;
+      }
+
+      state.rooms.splice(idx, 1);
+    },
     setActiveRoom: (state, action) => {
       state.activeRoom = action.payload;
     },
@@ -31,6 +44,8 @@ export const slice = createSlice(config);
 export const {
   setState,
   setRooms,
+  addRoom,
+  removeRoom,
   setActiveRoom,
   resetActiveRoom,
 } = slice.actions;

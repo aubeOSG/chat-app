@@ -4,7 +4,7 @@ import { requester } from '../../services';
 
 export const endpoint = '/messages';
 
-export const list = (): AxiosPromise<{ messages: Array<Message> }> => {
+export const list = (id?: string): AxiosPromise<{ messages: Array<Message> }> => {
   return requester.GET(endpoint);
 };
 
