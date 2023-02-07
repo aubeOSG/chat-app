@@ -4,7 +4,7 @@ import {
   RootState,
   socketer
 } from '../../services';
-import { User } from './users.types';
+import { User, UserInfo } from './users.types';
 import * as state from './users-state';
 
 const processor: StateProcessor = {};
@@ -33,6 +33,21 @@ export const addEvents = () => {
     console.debug('setting user', data);
     processor.dispatch(state.setMe(data.user));
   });
+
+  socketer.hooks.io.on('user-updated', (req) => {
+    if (!processor.dispatch) {
+      console.warn('unable to update user: processor not ready');
+      return;
+    }
+
+    if (req.error) {
+      console.error(req.message);
+      return;
+    }
+
+    console.debug('updating user', req.data);
+    processor.dispatch(state.updateUserList(req.data.user));
+  });
 };
 
 export const cleanupEvents = () => {
@@ -42,6 +57,7 @@ export const cleanupEvents = () => {
   }
 
   socketer.hooks.io.off('user-info');
+  socketer.hooks.io.off('user-updated');
 };
 
 export const useState = () => {
@@ -50,6 +66,15 @@ export const useState = () => {
 
 export const useMe = (): User => {
   return useSelector((data: RootState) => data[state.config.name].me);
+};
+
+export const setMe = (data: Partial<UserInfo>) => {
+  if (!processor.dispatch) {
+    console.warn('unable to set user info: processor not set');
+    return;
+  }
+
+  processor.dispatch(state.updateMyInfo(data));
 };
 
 export const useUsers = (): Array<User> => {
@@ -71,5 +96,6 @@ export default {
   cleanupEvents,
   useState,
   useMe,
+  setMe,
   useUsers,
 };

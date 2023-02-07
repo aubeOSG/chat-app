@@ -64,6 +64,26 @@ export const _remove = (userId: string) => {
   _users.splice(userIdx, 1);
 };
 
+export const _update = (user: User) => {
+  const userIdx = utils.list.indexBy(_users, 'id', user.id);
+
+  if (userIdx === -1) {
+    return {
+      error: true,
+      message: 'unable to update user: user not found',
+    };
+  }
+
+  _users.splice(userIdx, 1, user);
+
+  return {
+    error: false,
+    data: {
+      user,
+    }
+  }
+};
+
 export const endpoints: RegisterEndpoints = {
   list: {
     name: '/users',
@@ -79,4 +99,5 @@ export default {
   list,
   _add,
   _remove,
+  _update,
 };

@@ -48,6 +48,7 @@ export const initSockets = (app: Application, server: http.Server) => {
     });
 
     lobby.socket.init(io, socket, newUser);
+    users.socket.init(io, socket, newUser);
     messages.socket.init(io, socket, newUser);
     rooms.socket.init(io, socket, newUser);
   });

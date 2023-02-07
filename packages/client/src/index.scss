@@ -132,6 +132,12 @@ body {
   border: 2px solid var(--color-scale-white);
   border-radius: 50%;
 
+  &.display {
+    height: 182px;
+    width: 182px;
+    margin: 0.5rem auto 2rem;
+  }
+
   &.large {
     height: 66px;
     width: 66px;

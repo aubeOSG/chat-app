@@ -16,6 +16,7 @@ export const Content = () => {
   const roomList = rooms.hooks.useRooms();
   const [isOpenCreateRoom, setIsOpenCreateRoom] = useState(false);
   const [roomName, setRoomName] = useState<string>('');
+  const [isOpenInfo, setIsOpenInfo] = useState(false);
 
   const joinRoom = (room: Room) => {
     console.log('joining room');
@@ -33,6 +34,14 @@ export const Content = () => {
     }
 
     setRoomName(roomName);
+  };
+
+  const openInfo = () => {
+    setIsOpenInfo(true);
+  };
+
+  const closeInfo = () => {
+    setIsOpenInfo(false);
   };
 
   useEffect(() => {
@@ -91,13 +100,17 @@ export const Content = () => {
       <section className="content">
         <header>
           <h2>Users</h2>
+
+          <button className="btn btn-primary" onClick={openInfo}>
+            My Info
+          </button>
         </header>
         <main>
           {userList &&
             userList.map((user: User, idx: number) => {
               const classes =
                 me && user.id === me.id ? 'user current-user' : 'user';
-              console.log('user list', user);
+
               return (
                 <div key={idx} className={classes}>
                   <Avatar>{user.info.avatar.key}</Avatar>
@@ -136,6 +149,10 @@ export const Content = () => {
         isOpen={isOpenCreateRoom}
         onClose={closeCreateRoom}
       ></overlays.CreateRoom>
+      <overlays.UserInfo
+        isOpen={isOpenInfo}
+        onClose={closeInfo}
+      ></overlays.UserInfo>
     </div>
   );
 };

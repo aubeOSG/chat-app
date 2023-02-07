@@ -1,43 +1,59 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react';
-import { Modal } from '../../../../../components';
+import { Avatar, Modal } from '../../../../../components';
+import { users } from '../../../../../models';
 
-const CreateRoomElement = ({ isOpen, onClose, ...props }, ref) => {
-  const title = 'Create Room';
-  const [roomName, setRoomName] = useState<string>('');
+const UserInfoElement = ({ isOpen, onClose, ...props }, ref) => {
+  const title = 'User Info';
+  const me = users.hooks.useMe();
+  const [userName, setUserName] = useState<string>(me.info.name);
+  const isDirty = useRef(false);
 
   const handleNameChange = (ev: React.FormEvent<HTMLInputElement>) => {
     const val = ev.currentTarget.value;
 
-    setRoomName(val);
+    isDirty.current = true;
+    setUserName(val);
   };
 
-  const handleCreateRoom = () => {
-    if (!roomName) {
+  const handleUserInfo = () => {
+    if (!userName) {
       return;
     }
 
-    onClose(roomName);
+    users.hooks.setMe({ name: userName });
+    onClose();
   };
 
   useEffect(() => {
-    setRoomName('');
+    if (isOpen) {
+      setUserName(me.info.name);
+      isDirty.current = false;
+    }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen && isDirty.current) {
+      users.api.update(me);
+    }
+  }, [isOpen, isDirty.current]);
 
   return (
     <div ref={ref}>
       <Modal
-        className="modal-create-room"
+        className="modal-user-info"
         title={title}
         isOpen={isOpen}
         onClose={onClose}
       >
-        <main className="overlay-create-room">
-          <label htmlFor="create-room-name">
-            <span>Room Name: </span>
+        <main className="overlay-user-info">
+          <Avatar className="display">{me.info.avatar.key}</Avatar>
+
+          <label htmlFor="user-info-name">
+            <span>User Name: </span>
             <input
               type="text"
-              id="create-room-name"
-              value={roomName}
+              id="user-info-name"
+              value={userName}
               onChange={handleNameChange}
             />
           </label>
@@ -45,14 +61,14 @@ const CreateRoomElement = ({ isOpen, onClose, ...props }, ref) => {
 
         <footer className="d-flex justify-content-end">
           <button type="button" className="btn btn-link" onClick={onClose}>
-            Close
+            Cancel
           </button>
           <button
             type="button"
             className="btn btn-success"
-            onClick={handleCreateRoom}
+            onClick={handleUserInfo}
           >
-            Create
+            Update
           </button>
         </footer>
       </Modal>
@@ -60,9 +76,9 @@ const CreateRoomElement = ({ isOpen, onClose, ...props }, ref) => {
   );
 };
 
-const CreateRoomRef = forwardRef(CreateRoomElement);
+const UserInfoRef = forwardRef(UserInfoElement);
 
-export const CreateRoom = ({ isOpen, ...props }) => {
+export const UserInfo = ({ isOpen, ...props }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -82,11 +98,11 @@ export const CreateRoom = ({ isOpen, ...props }) => {
 
   return (
     <div ref={containerRef}>
-      <CreateRoomRef ref={overlayRef} isOpen={isOpen} {...props} />
+      <UserInfoRef ref={overlayRef} isOpen={isOpen} {...props} />
     </div>
   );
 };
 
 export default {
-  CreateRoom,
+  UserInfo,
 };
