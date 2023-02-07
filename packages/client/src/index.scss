@@ -296,3 +296,18 @@ body {
 .justify-content-end {
   justify-content: end;
 }
+
+.container {
+  & header {
+    & .actions {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.link {
+  text-decoration: none;
+  color: var(--color-scale-blue-5);
+  margin: 0 0.5rem;
+}

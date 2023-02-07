@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { Route as usersRoute } from '../users/users-page';
 import { users, lobby, rooms, Room } from '../../models';
 import { Avatar } from '../../components';
 import components from './components';
@@ -107,10 +109,18 @@ export const Content = () => {
         <header>
           <h2>Chat App</h2>
 
-          <button className="btn btn-clear btn-user-info" onClick={openInfo}>
-            <span className="logo">OSG</span>
-            <Avatar>{me.info.avatar.key}</Avatar>
-          </button>
+          <div className="actions">
+            <div>
+              <Link className="link" to={usersRoute}>
+                View Users
+              </Link>
+            </div>
+
+            <button className="btn btn-clear btn-user-info" onClick={openInfo}>
+              <span className="logo">OSG</span>
+              <Avatar>{me.info.avatar.key}</Avatar>
+            </button>
+          </div>
         </header>
         <main className="room-wrapper">
           <section className="sidebar">
