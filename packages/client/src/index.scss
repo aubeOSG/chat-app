@@ -108,8 +108,14 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-.container {
-  display: flex;
+#app {
+  height: 100vh;
+}
+
+.wrapper,
+.container,
+.lobby-page > .content {
+  height: 100%;
 }
 
 .user {
@@ -164,14 +170,16 @@ body {
   min-width: 100px;
   max-width: 332px;
   background-color: var(--color-scale-gray-9);
-  padding: 1rem;
+
+  & main {
+    padding: 1rem;
+  }
 }
 
 .content {
   width: 100%;
   display: flex;
   flex-direction: column;
-  height: 100vh;
 
   & header,
   & footer {
@@ -188,14 +196,12 @@ body {
 
   & main {
     height: 100%;
-    max-height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 1rem;
   }
 
   & footer {
-    height: 108px;
+    height: 68px;
     justify-content: center;
 
     & textarea {
@@ -247,26 +253,17 @@ body {
 
 .lobby-page {
   width: 100%;
-  display: flex;
-  flex-direction: column;
 
-  & .content {
-    max-height: 50vh;
-
-    & main {
-      display: flex;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      align-content: flex-start;
-    }
+  & .room-wrapper {
+    display: flex;
+    max-height: calc(100vh - 64px);
   }
 }
 
 .btn {
-  border: none;
   padding: 0.5rem 0.75rem;
   margin: 0.25rem 0.5rem;
-  border-bottom: 1px solid transparent;
+  border: 1px solid transparent;
   cursor: pointer;
 
   &-link {
@@ -284,4 +281,18 @@ body {
     background-color: var(--color-scale-blue-5);
     color: var(--color-scale-white);
   }
+
+  &-clear {
+    background-color: transparent;
+    color: var(--color-scale-white);
+    border-color: var(--color-border);
+  }
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-end {
+  justify-content: end;
 }

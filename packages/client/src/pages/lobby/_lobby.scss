@@ -1,3 +1,33 @@
+.btn-user-info {
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+
+  & .logo {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+  }
+
+  & .avatar {
+    margin: 0;
+  }
+}
+
+.lobby-page {
+  & .room-list {
+    height: calc(100% - 68px);
+  }
+
+  & .room-wrapper {
+    & .sidebar {
+      & footer {
+        height: 68px;
+        justify-content: end;
+      }
+    }
+  }
+}
+
 .room {
   &-link {
     margin: 0.5rem;

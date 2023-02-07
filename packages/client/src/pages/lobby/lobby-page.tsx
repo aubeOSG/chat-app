@@ -99,50 +99,40 @@ export const Content = () => {
     <div className="lobby-page">
       <section className="content">
         <header>
-          <h2>Users</h2>
+          <h2>Chat App</h2>
 
-          <button className="btn btn-primary" onClick={openInfo}>
-            My Info
+          <button className="btn btn-clear btn-user-info" onClick={openInfo}>
+            <span className="logo">OSG</span>
+            <Avatar>{me.info.avatar.key}</Avatar>
           </button>
         </header>
-        <main>
-          {userList &&
-            userList.map((user: User, idx: number) => {
-              const classes =
-                me && user.id === me.id ? 'user current-user' : 'user';
-
-              return (
-                <div key={idx} className={classes}>
-                  <Avatar>{user.info.avatar.key}</Avatar>
-                  {user.info.name}
-                </div>
-              );
-            })}
-        </main>
-      </section>
-      <section className="content">
-        <header>
-          <h2>Rooms</h2>
-
-          <button className="btn btn-primary" onClick={createRoom}>
-            Create
-          </button>
-        </header>
-        <main className="room-list">
-          {roomList &&
-            roomList.map((room: Room, idx: number) => {
-              return (
-                <div
-                  className="room-link"
-                  key={idx}
-                  onClick={() => joinRoom(room)}
-                >
-                  <Link to={`${roomRoute.replace(':roomId', room.id)}`}>
-                    {room.name}
-                  </Link>
-                </div>
-              );
-            })}
+        <main className="room-wrapper">
+          <section className="sidebar">
+            <main className="room-list">
+              {roomList &&
+                roomList.map((room: Room, idx: number) => {
+                  return (
+                    <div
+                      className="room-link"
+                      key={idx}
+                      onClick={() => joinRoom(room)}
+                    >
+                      <Link to={`${roomRoute.replace(':roomId', room.id)}`}>
+                        {room.name}
+                      </Link>
+                    </div>
+                  );
+                })}
+            </main>
+            <footer className="d-flex justify-content-end">
+              <button className="btn btn-primary" onClick={createRoom}>
+                Create
+              </button>
+            </footer>
+          </section>
+          <section className="content room-view">
+            <div>Chat View</div>
+          </section>
         </main>
       </section>
       <overlays.CreateRoom

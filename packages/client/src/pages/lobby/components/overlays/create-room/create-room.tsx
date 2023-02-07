@@ -20,7 +20,9 @@ const CreateRoomElement = ({ isOpen, onClose, ...props }, ref) => {
   };
 
   useEffect(() => {
-    setRoomName('');
+    if (isOpen) {
+      setRoomName('');
+    }
   }, [isOpen]);
 
   return (
@@ -29,7 +31,7 @@ const CreateRoomElement = ({ isOpen, onClose, ...props }, ref) => {
         className="modal-create-room"
         title={title}
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={() => onClose()}
       >
         <main className="overlay-create-room">
           <label htmlFor="create-room-name">
@@ -44,7 +46,11 @@ const CreateRoomElement = ({ isOpen, onClose, ...props }, ref) => {
         </main>
 
         <footer className="d-flex justify-content-end">
-          <button type="button" className="btn btn-link" onClick={onClose}>
+          <button
+            type="button"
+            className="btn btn-link"
+            onClick={() => onClose()}
+          >
             Close
           </button>
           <button
