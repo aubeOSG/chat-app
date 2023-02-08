@@ -43,11 +43,13 @@ export const initSockets = (app: Application, server: http.Server) => {
     users.api._add(newUser);
 
     socket.on('disconnect', () => {
-      console.log('a user left', newUser.id);
-      const res = rooms.api._leaveAll(newUser);
+      setTimeout(() => {
+        console.log('a user left', newUser.id);
+        const res = rooms.api._leaveAll(newUser);
       
-      users.api._remove(newUser.id);
-      io.emit('lobby-left', res);
+        users.api._remove(newUser.id);
+        io.emit('lobby-left', res);
+      }, 150);
     });
 
     lobby.socket.init(io, socket, newUser);
