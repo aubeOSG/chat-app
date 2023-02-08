@@ -8,7 +8,7 @@ import components from './components';
 export const Route = '/lobby';
 
 export const Content = () => {
-  const isJoined = lobby.hooks.useJoined();
+  const updatedBy = lobby.hooks.useUpdatedBy();
   const me = users.hooks.useMe();
   const activeRoom = rooms.hooks.useActiveRoom();
   const userListProgress = useRef(false);
@@ -87,9 +87,10 @@ export const Content = () => {
         });
     };
 
+    console.debug('updated by', updatedBy);
     getUsers();
     getRooms();
-  }, [isJoined]);
+  }, [updatedBy]);
 
   useEffect(() => {
     if (roomList.length && !activeRoom.id) {

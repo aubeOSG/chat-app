@@ -68,6 +68,18 @@ export const addEvents = () => {
     processor.dispatch(state.setActiveRoom(req.data.room));
   });
 
+  socketer.hooks.io.on('room-updated', (req) => {
+    if (!processor.dispatch) {
+      console.warn('unable to add room: processor not ready');
+    }
+
+    if (req.error) {
+      return;
+    }
+
+    processor.dispatch(state.updateRoom(req.data.room));
+  });
+
   socketer.hooks.io.on('room-member-joined', (req) => {
     if (!processor.dispatch) {
       console.warn('unable to add room: processor not ready');
@@ -119,6 +131,7 @@ export const cleanupEvents = () => {
   socketer.hooks.io.off('room-member-joined');
   socketer.hooks.io.off('room-member-left');
   socketer.hooks.io.off('room-left');
+  socketer.hooks.io.off('room-updated');
 };
 
 export const useState = () => {

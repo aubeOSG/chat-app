@@ -24,12 +24,18 @@ export const addEvents = () => {
     return;
   }
 
-  socketer.hooks.io.on('lobby-joined', () => {
-    processor.dispatch(state.setIsJoined(true));
+  socketer.hooks.io.on('lobby-joined', (req) => {
+    console.log('lobby joined', req);
+    setTimeout(() => {
+      processor.dispatch(state.setUpdatedBy(req.data.user.id));
+    }, 150);
   });
 
-  socketer.hooks.io.on('lobby-left', () => {
-    processor.dispatch(state.setIsJoined(false));
+  socketer.hooks.io.on('lobby-left', (req) => {
+    console.log('lobby left', req);
+    setTimeout(() => {
+      processor.dispatch(state.setUpdatedBy(req.data.user.id));
+    }, 150);
   });
 };
 
@@ -47,8 +53,8 @@ export const useState = () => {
   return useSelector((data: RootState) => data[state.config.name]);
 };
 
-export const useJoined = () => {
-  return useSelector((data: RootState) => data[state.config.name].isJoined);
+export const useUpdatedBy = () => {
+  return useSelector((data: RootState) => data[state.config.name].updatedBy);
 };
 
 export default {
@@ -56,5 +62,5 @@ export default {
   addEvents,
   cleanupEvents,
   useState,
-  useJoined,
+  useUpdatedBy,
 };

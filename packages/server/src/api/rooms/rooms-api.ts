@@ -72,6 +72,7 @@ export const _join = (room: Room, user: User) => {
     data: {
       room,
       user,
+      rooms: _rooms,
     },
   }
 };

@@ -3,7 +3,7 @@ import utils from '../../utils';
 import { StateConfig } from '../../services';
 
 export const initialState = {
-  isJoined: false,
+  updatedBy: '',
 };
 
 export const config: StateConfig = {
@@ -13,8 +13,8 @@ export const config: StateConfig = {
     setState: (state, action) => {
       utils.obj.updateObj(state, action.payload);
     },
-    setIsJoined: (state, action) => {
-      state.isJoined = action.payload;
+    setUpdatedBy: (state, action) => {
+      state.updatedBy = action.payload;
     },
   },
 };
@@ -23,7 +23,7 @@ export const slice = createSlice(config);
 
 export const {
   setState,
-  setIsJoined,
+  setUpdatedBy,
 } = slice.actions;
 
 export const reducer = slice.reducer;

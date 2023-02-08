@@ -28,6 +28,7 @@ export const init = (io: Server, socket: Socket, user: User) => {
     setTimeout(() => {
       socket.emit('room-joined', res);
       io.to(data.room.id).emit('room-member-joined', res);
+      io.emit('room-updated', res);
     }, 150);
   });
 
