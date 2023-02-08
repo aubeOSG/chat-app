@@ -38,8 +38,8 @@ const CreateRoomElement = ({ isOpen, onClose, ...props }, ref) => {
       >
         <form onSubmit={handleCreateRoom} name="create-room">
           <main className="overlay-create-room">
-            <label htmlFor="create-room__name">
-              <span>Room Name: </span>
+            <label htmlFor="create-room__name" className="control">
+              <span>Room Name</span>
               <input
                 type="text"
                 name="name"

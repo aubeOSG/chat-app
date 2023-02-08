@@ -69,9 +69,9 @@ export const Modal = ({
                 <div className="modal-content">
                   {title && (
                     <header className="offcanvas-header">
-                      <h5 className="offcanvas-title mb-0">
+                      <h1 className="offcanvas-title mb-0">
                         {typeof title === 'string' ? title : ''}
-                      </h5>
+                      </h1>
                     </header>
                   )}
                   {children}

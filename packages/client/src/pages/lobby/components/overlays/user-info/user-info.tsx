@@ -15,7 +15,10 @@ const UserInfoElement = ({ isOpen, onClose, ...props }, ref) => {
     setUserName(val);
   };
 
-  const handleUserInfo = () => {
+  const handleUserInfo = (ev) => {
+    ev.stopPropagation();
+    ev.preventDefault();
+
     if (!userName) {
       return;
     }
@@ -45,32 +48,31 @@ const UserInfoElement = ({ isOpen, onClose, ...props }, ref) => {
         isOpen={isOpen}
         onClose={onClose}
       >
-        <main className="overlay-user-info">
-          <Avatar className="display">{me.info.avatar.key}</Avatar>
+        <form onSubmit={handleUserInfo} name="user-info">
+          <main className="overlay-user-info">
+            <Avatar className="display">{me.info.avatar.key}</Avatar>
 
-          <label htmlFor="user-info-name">
-            <span>User Name: </span>
-            <input
-              type="text"
-              id="user-info-name"
-              value={userName}
-              onChange={handleNameChange}
-            />
-          </label>
-        </main>
+            <label htmlFor="user-info-name" className="control">
+              <span>User Name</span>
+              <input
+                type="text"
+                id="user-info-name"
+                name="name"
+                value={userName}
+                onChange={handleNameChange}
+              />
+            </label>
+          </main>
 
-        <footer className="d-flex justify-content-end">
-          <button type="button" className="btn btn-link" onClick={onClose}>
-            Cancel
-          </button>
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={handleUserInfo}
-          >
-            Update
-          </button>
-        </footer>
+          <footer className="d-flex justify-content-end">
+            <button type="button" className="btn btn-link" onClick={onClose}>
+              Cancel
+            </button>
+            <button type="submit" className="btn btn-success">
+              Update
+            </button>
+          </footer>
+        </form>
       </Modal>
     </div>
   );

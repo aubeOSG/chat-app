@@ -105,11 +105,30 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Inter', sans-serif;
 }
 
 form {
   margin: 0;
+}
+
+html,
+body,
+textarea,
+input {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+}
+
+textarea,
+input {
+  background-color: var(--color-scale-gray-8);
+  border: none;
+  color: var(--color-scale-white);
+  padding: 0.5rem;
+}
+
+h1 {
+  margin: 1rem 0;
 }
 
 #app {
@@ -319,4 +338,15 @@ form {
   text-decoration: none;
   color: var(--color-scale-blue-5);
   margin: 0 0.5rem;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+
+  & span {
+    font-size: 0.9rem;
+    margin: 0.33rem 0.5rem 0.33rem 0;
+  }
 }
