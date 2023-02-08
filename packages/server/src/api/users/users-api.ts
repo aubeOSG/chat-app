@@ -6,17 +6,32 @@ import adjectives from './user-adjectives';
 import avatars from './user-avatars';
 import rooms from '../rooms';
 
-const adjectiveCnt = adjectives.list.length;
-const avatarCnt = avatars.list.length;
+const adjectiveCnt = adjectives.list.length - 1;
+const avatarCnt = avatars.list.length - 1;
 
 export const _users: Array<User> = [];
 
+const getRandomIndex = (list) => {
+  const cnt = list.length - 1;
+  let idx = Math.floor(Math.random() * cnt) + 1;
+
+  if (!list[idx]) {
+    idx = Math.floor(Math.random() * cnt);
+  }
+
+  return idx;
+}
+
 export const _generateInfo = () => {
-  const createInfo = (): UserInfo => {
-    const adjectiveIdx = Math.floor(Math.random() * adjectiveCnt) - 1;
+  const createInfo = (): UserInfo | undefined => {
+    const adjectiveIdx = getRandomIndex(adjectives.list);
     const adjective = adjectives.list[adjectiveIdx];
-    const avatarIdx = Math.floor(Math.random() * avatarCnt) - 1;
+    const avatarIdx = getRandomIndex(avatars.list);
     const avatar = avatars.list[avatarIdx];
+
+    if (!adjective || !avatar) {
+      return;
+    }
 
     return {
       name: `${adjective} ${avatar.label}`,
@@ -34,7 +49,13 @@ export const _generateInfo = () => {
   };
 
   for (let i = 0, ii = (adjectiveCnt * avatarCnt); i < ii; i++) {
-    info = createInfo();
+    const temp = createInfo();
+
+    if (!temp) {
+      continue;
+    }
+
+    info = temp;
     userLookup = utils.list.indexBy(_users, 'name', info.name);
 
     if (userLookup === -1) {
