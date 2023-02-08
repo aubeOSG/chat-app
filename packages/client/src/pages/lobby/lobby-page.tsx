@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Route as usersRoute } from '../users/users-page';
 import { users, lobby, rooms, Room } from '../../models';
-import { Avatar } from '../../components';
+import { Avatar, Icon } from '../../components';
 import components from './components';
 
 export const Route = '/lobby';
@@ -124,6 +124,13 @@ export const Content = () => {
         </header>
         <main className="room-wrapper">
           <section className="sidebar">
+            <header>
+              <h4 className="title">Rooms</h4>
+
+              <button className="btn btn-primary rounded" onClick={createRoom}>
+                <Icon symbol="add" />
+              </button>
+            </header>
             <main className="room-list">
               {roomList &&
                 roomList.map((room: Room, idx: number) => {
@@ -144,11 +151,6 @@ export const Content = () => {
                   );
                 })}
             </main>
-            <footer className="d-flex justify-content-end">
-              <button className="btn btn-primary" onClick={createRoom}>
-                Create
-              </button>
-            </footer>
           </section>
           <section className="content room-view">
             <components.Room></components.Room>
