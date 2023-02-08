@@ -4,7 +4,7 @@ import { Message, NewMessage } from './messages.types';
 import { RegisterEndpoints } from '../api.types';
 import utils from '../../utils';
 import users from '../users';
-import rooms from '../rooms';
+import rooms, { Room } from '../rooms';
 
 export const _messages: Array<Message> = [];
 
@@ -73,6 +73,20 @@ export const _add = (newMessage: NewMessage) => {
       message,
     }
   };
+};
+
+export const _removeRoom = (room: Room) => {
+  const i = _messages.length - 1;
+
+  if (i === -1) {
+    return;
+  }
+
+  for (let i = 0; i > -1; i--) {
+    if (_messages[i].roomId === room.id) {
+      _messages.splice(i, 1);
+    }
+  }
 };
 
 export const endpoints: RegisterEndpoints = {

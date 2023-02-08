@@ -11,6 +11,13 @@ export const Room = () => {
   const messageListProgress = useRef(false);
   const [newMessage, setNewMessage] = useState<string>('');
 
+  const leaveRoom = () => {
+    if (room.id) {
+      rooms.api.leave(room, me);
+      rooms.hooks.resetActiveRoom();
+    }
+  };
+
   const sendNewMessage = (ev) => {
     ev.stopPropagation();
     ev.preventDefault();
@@ -93,19 +100,18 @@ export const Room = () => {
 
   return (
     <section className="chatroom">
-      <header className="d-flex">
-        {userList &&
-          userList.map((user: User, idx: number) => {
-            const classes =
-              me && user.id === me.id ? 'user current-user' : 'user';
-
-            return (
-              <div key={idx} className={classes}>
-                <Avatar alt={user.info.name}>{user.info.avatar.key}</Avatar>
-              </div>
-            );
-          })}
-      </header>
+      {!room.isDefault && (
+        <header className="d-flex">
+          <button
+            type="button"
+            className="btn btn-primary rounded"
+            title="Leave Room"
+            onClick={leaveRoom}
+          >
+            <Icon symbol="call_missed_outgoing" />
+          </button>
+        </header>
+      )}
       <main>
         {messageList &&
           messageList.map((msg: Message, idx: number) => {
@@ -134,7 +140,11 @@ export const Room = () => {
             onChange={updateNewMessage}
             onKeyDown={handleInputNewMessage}
           ></textarea>
-          <button type="submit" className="btn btn-success">
+          <button
+            type="submit"
+            className="btn btn-success"
+            title="Send Message"
+          >
             <Icon symbol="send"></Icon>
           </button>
         </form>

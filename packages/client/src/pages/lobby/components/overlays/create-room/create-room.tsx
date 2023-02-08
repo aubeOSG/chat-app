@@ -57,10 +57,15 @@ const CreateRoomElement = ({ isOpen, onClose, ...props }, ref) => {
               type="button"
               className="btn btn-link"
               onClick={() => onClose()}
+              title="Close Room Creation"
             >
               Close
             </button>
-            <button type="submit" className="btn btn-success">
+            <button
+              type="submit"
+              className="btn btn-success"
+              title="Create Room"
+            >
               Create
             </button>
           </footer>

@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { ActionCreatorWithoutPayload } from '@reduxjs/toolkit';
 import {
   StateProcessor,
   RootState,
@@ -92,6 +93,18 @@ export const addEvents = () => {
     console.debug('removing member from room', req);
     processor.dispatch(state.updateRoom(req.data.room));
   });
+
+  socketer.hooks.io.on('room-left', (req) => {
+    if (!processor.dispatch) {
+      console.warn('unable to add room: processor not ready');
+    }
+
+    if (req.error) {
+      return;
+    }
+
+    setRooms(req.data.rooms);
+  });
 };
 
 export const cleanupEvents = () => {
@@ -105,6 +118,7 @@ export const cleanupEvents = () => {
   socketer.hooks.io.off('room-joined');
   socketer.hooks.io.off('room-member-joined');
   socketer.hooks.io.off('room-member-left');
+  socketer.hooks.io.off('room-left');
 };
 
 export const useState = () => {
@@ -122,6 +136,17 @@ export const setActiveRoom = (data: Room) => {
   }
 
   processor.dispatch(state.setActiveRoom(data));
+};
+
+export const resetActiveRoom = () => {
+  if (!processor.dispatch) {
+    console.warn('unable to set active room: processor not set');
+    return;
+  }
+
+  const fn = state.resetActiveRoom as ActionCreatorWithoutPayload;
+
+  processor.dispatch(fn());
 };
 
 export const useRooms = (): Array<Room> => {
@@ -144,6 +169,7 @@ export default {
   useState,
   useActiveRoom,
   setActiveRoom,
+  resetActiveRoom,
   useRooms,
   setRooms,
 };

@@ -18,14 +18,7 @@ export const Content = () => {
   const [roomName, setRoomName] = useState<string>('');
   const [isOpenInfo, setIsOpenInfo] = useState(false);
 
-  const leaveRoom = () => {
-    if (activeRoom.id) {
-      rooms.api.leave(activeRoom, me);
-    }
-  };
-
   const joinRoom = (room: Room) => {
-    leaveRoom();
     rooms.api.join(room, me);
   };
 
@@ -53,7 +46,6 @@ export const Content = () => {
 
   useEffect(() => {
     if (roomName) {
-      leaveRoom();
       rooms.api.create(roomName);
     }
   }, [roomName]);
@@ -103,6 +95,24 @@ export const Content = () => {
     getRooms();
   }, [isJoined]);
 
+  useEffect(() => {
+    if (roomList.length && !activeRoom.id) {
+      rooms.hooks.setActiveRoom(roomList[0]);
+    }
+  }, [roomList, activeRoom.id]);
+
+  // {userList &&
+  //   userList.map((user: User, idx: number) => {
+  //     const classes =
+  //       me && user.id === me.id ? 'user current-user' : 'user';
+
+  //     return (
+  //       <div key={idx} className={classes}>
+  //         <Avatar alt={user.info.name}>{user.info.avatar.key}</Avatar>
+  //       </div>
+  //     );
+  //   })}
+
   return (
     <div className="lobby-page">
       <section className="content">
@@ -116,7 +126,11 @@ export const Content = () => {
               </Link>
             </div>
 
-            <button className="btn btn-clear btn-user-info" onClick={openInfo}>
+            <button
+              className="btn btn-clear btn-user-info"
+              onClick={openInfo}
+              title="User Info"
+            >
               <span className="logo">OSG</span>
               <Avatar>{me.info.avatar.key}</Avatar>
             </button>
@@ -127,7 +141,11 @@ export const Content = () => {
             <header>
               <h4 className="title">Rooms</h4>
 
-              <button className="btn btn-primary rounded" onClick={createRoom}>
+              <button
+                className="btn btn-primary rounded"
+                onClick={createRoom}
+                title="Add Room"
+              >
                 <Icon symbol="add" />
               </button>
             </header>

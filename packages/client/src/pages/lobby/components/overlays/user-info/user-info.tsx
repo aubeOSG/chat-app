@@ -65,10 +65,19 @@ const UserInfoElement = ({ isOpen, onClose, ...props }, ref) => {
           </main>
 
           <footer className="d-flex justify-content-end">
-            <button type="button" className="btn btn-link" onClick={onClose}>
+            <button
+              type="button"
+              className="btn btn-link"
+              onClick={onClose}
+              title="Cancel Changes"
+            >
               Cancel
             </button>
-            <button type="submit" className="btn btn-success">
+            <button
+              type="submit"
+              className="btn btn-success"
+              title="Update Info"
+            >
               Update
             </button>
           </footer>

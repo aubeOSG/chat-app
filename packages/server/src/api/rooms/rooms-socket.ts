@@ -3,6 +3,8 @@ import { User } from '../users';
 import api from './rooms-api';
 
 export const init = (io: Server, socket: Socket, user: User) => {
+  socket.join(api._rooms[0].id);
+
   socket.on('room-create', (data) => {
     const res = api._add(data.name, user);
 
@@ -37,8 +39,8 @@ export const init = (io: Server, socket: Socket, user: User) => {
     }
     
     setTimeout(() => {
-      socket.emit('room-left', res);
       io.to(data.room.id).emit('room-member-left', res);
+      io.emit('room-left', res);
     }, 150);
   });
 };
