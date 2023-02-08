@@ -32,6 +32,7 @@ export const Root = () => {
   const isConnected = socketer.hooks.useConnection();
 
   useEffect(() => {
+    socketer.hooks.connect();
     lobby.hooks.addEvents();
     users.hooks.addEvents();
     rooms.hooks.addEvents();

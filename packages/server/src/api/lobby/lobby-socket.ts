@@ -7,7 +7,7 @@ export const init = (io: Server, socket: Socket, user: User) => {
   setTimeout(() => {
     console.log('lobby joined by', user.id);
     io.emit('lobby-joined');
-  }, 150);
+  }, 250);
 };
 
 export default {

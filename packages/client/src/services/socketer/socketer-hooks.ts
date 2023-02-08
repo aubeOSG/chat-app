@@ -1,11 +1,15 @@
 import { useSelector, useDispatch } from 'react-redux';
-import IO from 'socket.io-client';
+import IO, { Socket } from 'socket.io-client';
 import * as state from '../state';
 import * as serviceState from './socketer-state';
 
 const processor: state.StateProcessor = {};
 
-export let io = IO();
+export let io: Socket | undefined = undefined;
+
+export const connect = () => {
+  io = IO();
+};
 
 export const useProcessor = () => {
   const dispatch = useDispatch();
@@ -14,12 +18,25 @@ export const useProcessor = () => {
 };
 
 export const addEvents = () => {
+  if (!io) {
+    console.warn('unable to add events: socket not ready');
+    return;
+  }
+
   io.on('connect', () => {
+    if (!io) {
+      return;
+    }
+
     console.debug('socket connected', io.id);
     processor.dispatch(serviceState.setIsConnected(true));
   });
 
   io.on('disconnect', () => {
+    if (!io) {
+      return;
+    }
+
     console.debug('socket disconnected', io.id);
     processor.dispatch(serviceState.setIsConnected(false));
   });
@@ -45,6 +62,7 @@ export const useConnection = () => {
 
 export default {
   io,
+  connect,
   useProcessor,
   addEvents,
   cleanupEvents,

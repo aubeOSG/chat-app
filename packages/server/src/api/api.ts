@@ -36,9 +36,10 @@ export const initSockets = (app: Application, server: http.Server) => {
     const newUser = {
       id: socket.id,
       info: users.api._generateInfo(),
-      rooms: [],
+      rooms: [rooms.api._rooms[0].id],
     };
 
+    rooms.api._rooms[0].userIds.push(newUser.id);
     users.api._add(newUser);
 
     socket.on('disconnect', () => {

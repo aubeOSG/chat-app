@@ -52,9 +52,7 @@ export const list: express.Handler = (req, res) => {
 };
 
 export const _add = (user: User) => {
-  user.rooms.push(rooms.api._rooms[0].id);
   _users.push(user);
-  rooms.api._rooms[0].userIds.push(user.id);
 };
 
 export const _remove = (userId: string) => {
