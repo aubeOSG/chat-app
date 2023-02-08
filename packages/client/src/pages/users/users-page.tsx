@@ -7,7 +7,7 @@ import { Route as lobbyRoute } from '../lobby/lobby-page';
 export const Route = '/users';
 
 export const Content = () => {
-  const isJoined = lobby.hooks.useJoined();
+  const updatedBy = lobby.hooks.useUpdatedBy();
   const userListProgress = useRef(false);
   const userList = users.hooks.useUsers();
   const me = users.hooks.useMe();
@@ -34,7 +34,7 @@ export const Content = () => {
     };
 
     getUsers();
-  }, [isJoined]);
+  }, [updatedBy]);
 
   return (
     <div className="users-page">
