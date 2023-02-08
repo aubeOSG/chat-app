@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { users, User, messages, Message, rooms } from '../../../../models';
-import { Avatar } from '../../../../components';
+import { Avatar, Icon } from '../../../../components';
 
 export const Room = () => {
   const me = users.hooks.useMe();
@@ -135,7 +135,7 @@ export const Room = () => {
             onKeyDown={handleInputNewMessage}
           ></textarea>
           <button type="submit" className="btn btn-success">
-            Send
+            <Icon symbol="send"></Icon>
           </button>
         </form>
       </footer>
