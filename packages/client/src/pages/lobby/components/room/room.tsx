@@ -6,7 +6,6 @@ export const Room = () => {
   const me = users.hooks.useMe();
   const allUsers = users.hooks.useUsers();
   const room = rooms.hooks.useActiveRoom();
-  const [userList, setUserList] = useState<Array<User>>([]);
   const messageList = messages.hooks.useMessages();
   const messageListProgress = useRef(false);
   const [newMessage, setNewMessage] = useState<string>('');
@@ -81,18 +80,6 @@ export const Room = () => {
       getMessages();
     }
   }, [room.id]);
-
-  useEffect(() => {
-    if (!room.id) {
-      return;
-    }
-
-    setUserList(
-      allUsers.filter((user: User) => {
-        return room.userIds.indexOf(user.id) !== -1;
-      })
-    );
-  }, [room, allUsers]);
 
   if (!room.id) {
     return <div></div>;

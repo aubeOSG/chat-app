@@ -1,0 +1,13 @@
+.room-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & .user-list {
+    display: flex;
+  }
+
+  & .avatar {
+    margin: 0 0 0 0.25rem;
+  }
+}

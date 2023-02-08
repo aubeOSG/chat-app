@@ -18,10 +18,6 @@ export const Content = () => {
   const [roomName, setRoomName] = useState<string>('');
   const [isOpenInfo, setIsOpenInfo] = useState(false);
 
-  const joinRoom = (room: Room) => {
-    rooms.api.join(room, me);
-  };
-
   const createRoom = () => {
     setIsOpenCreateRoom(true);
   };
@@ -101,18 +97,6 @@ export const Content = () => {
     }
   }, [roomList, activeRoom.id]);
 
-  // {userList &&
-  //   userList.map((user: User, idx: number) => {
-  //     const classes =
-  //       me && user.id === me.id ? 'user current-user' : 'user';
-
-  //     return (
-  //       <div key={idx} className={classes}>
-  //         <Avatar alt={user.info.name}>{user.info.avatar.key}</Avatar>
-  //       </div>
-  //     );
-  //   })}
-
   return (
     <div className="lobby-page">
       <section className="content">
@@ -152,20 +136,11 @@ export const Content = () => {
             <main className="room-list">
               {roomList &&
                 roomList.map((room: Room, idx: number) => {
-                  let classes = 'room-link';
-
-                  if (activeRoom.id && activeRoom.id === room.id) {
-                    classes += ' current-room';
-                  }
-
                   return (
-                    <div
-                      className={classes}
+                    <components.RoomLink
                       key={idx}
-                      onClick={() => joinRoom(room)}
-                    >
-                      {room.name}
-                    </div>
+                      room={room}
+                    ></components.RoomLink>
                   );
                 })}
             </main>
