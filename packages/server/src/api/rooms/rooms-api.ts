@@ -105,7 +105,7 @@ export const _leave = (room: Room, user: User) => {
     users.api._update(user);
   }
 
-  if (!_rooms[roomIdx].userIds.length) {
+  if (!_rooms[roomIdx].userIds.length && !_rooms[roomIdx].isDefault) {
     _rooms.splice(roomIdx, 1);
     isDeleted = true;
     messages.api._removeRoom(room);
@@ -123,15 +123,15 @@ export const _leave = (room: Room, user: User) => {
 };
 
 export const _leaveAll = (user: User) => {
-  const roomsCnt = user.rooms.length;
+  const roomsCnt = user.rooms.length - 1;
 
-  if (!roomsCnt) {
+  if (roomsCnt === -1) {
     return;
   }
 
   let roomIdx = -1;
 
-  for (let i = 0; i < roomsCnt; i++) {
+  for (let i = roomsCnt; i > -1; i--) {
     roomIdx = utils.list.indexBy(_rooms, 'id', user.rooms[i]);
 
     if (roomIdx !== -1) {

@@ -76,13 +76,13 @@ export const _add = (newMessage: NewMessage) => {
 };
 
 export const _removeRoom = (room: Room) => {
-  const i = _messages.length - 1;
+  const mesCnt = _messages.length - 1;
 
-  if (i === -1) {
+  if (mesCnt === -1) {
     return;
   }
 
-  for (let i = 0; i > -1; i--) {
+  for (let i = mesCnt; i > -1; i--) {
     if (_messages[i].roomId === room.id) {
       _messages.splice(i, 1);
     }
