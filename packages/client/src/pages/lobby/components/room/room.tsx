@@ -11,7 +11,10 @@ export const Room = () => {
   const messageListProgress = useRef(false);
   const [newMessage, setNewMessage] = useState<string>('');
 
-  const sendNewMessage = () => {
+  const sendNewMessage = (ev) => {
+    ev.stopPropagation();
+    ev.preventDefault();
+
     const messageData = {
       roomId: room.id,
       user: me,
@@ -38,9 +41,7 @@ export const Room = () => {
           return;
         }
 
-        ev.stopPropagation();
-        ev.preventDefault();
-        sendNewMessage();
+        sendNewMessage(ev);
         break;
       case 'Escape':
         ev.currentTarget.blur();
@@ -126,12 +127,17 @@ export const Room = () => {
             );
           })}
       </main>
-      <footer>
-        <textarea
-          value={newMessage}
-          onChange={updateNewMessage}
-          onKeyDown={handleInputNewMessage}
-        ></textarea>
+      <footer className="message-box">
+        <form onSubmit={sendNewMessage}>
+          <textarea
+            value={newMessage}
+            onChange={updateNewMessage}
+            onKeyDown={handleInputNewMessage}
+          ></textarea>
+          <button type="submit" className="btn btn-success">
+            Send
+          </button>
+        </form>
       </footer>
     </section>
   );

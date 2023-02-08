@@ -108,6 +108,10 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+form {
+  margin: 0;
+}
+
 #app {
   height: 100vh;
 }
@@ -165,11 +169,16 @@ body {
   }
 }
 
+.toolbar {
+  border-bottom: 1px solid var(--color-border);
+}
+
 .sidebar {
   width: 33vw;
   min-width: 100px;
   max-width: 332px;
   background-color: var(--color-scale-gray-9);
+  border-right: 1px solid var(--color-border);
 
   & main {
     padding: 1rem;
@@ -269,7 +278,7 @@ body {
   &-link {
     background-color: transparent;
     color: var(--color-scale-white);
-    border-bottom-color: currentColor;
+    border-color: currentColor;
   }
 
   &-success {

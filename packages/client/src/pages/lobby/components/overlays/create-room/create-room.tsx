@@ -11,7 +11,10 @@ const CreateRoomElement = ({ isOpen, onClose, ...props }, ref) => {
     setRoomName(val);
   };
 
-  const handleCreateRoom = () => {
+  const handleCreateRoom = (ev: React.FormEvent) => {
+    ev.stopPropagation();
+    ev.preventDefault();
+
     if (!roomName) {
       return;
     }
@@ -33,34 +36,35 @@ const CreateRoomElement = ({ isOpen, onClose, ...props }, ref) => {
         isOpen={isOpen}
         onClose={() => onClose()}
       >
-        <main className="overlay-create-room">
-          <label htmlFor="create-room-name">
-            <span>Room Name: </span>
-            <input
-              type="text"
-              id="create-room-name"
-              value={roomName}
-              onChange={handleNameChange}
-            />
-          </label>
-        </main>
+        <form onSubmit={handleCreateRoom} name="create-room">
+          <main className="overlay-create-room">
+            <label htmlFor="create-room__name">
+              <span>Room Name: </span>
+              <input
+                type="text"
+                name="name"
+                placeholder="Room Name"
+                aria-label="Room Name"
+                id="create-room__name"
+                value={roomName}
+                onChange={handleNameChange}
+              />
+            </label>
+          </main>
 
-        <footer className="d-flex justify-content-end">
-          <button
-            type="button"
-            className="btn btn-link"
-            onClick={() => onClose()}
-          >
-            Close
-          </button>
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={handleCreateRoom}
-          >
-            Create
-          </button>
-        </footer>
+          <footer className="d-flex justify-content-end">
+            <button
+              type="button"
+              className="btn btn-link"
+              onClick={() => onClose()}
+            >
+              Close
+            </button>
+            <button type="submit" className="btn btn-success">
+              Create
+            </button>
+          </footer>
+        </form>
       </Modal>
     </div>
   );

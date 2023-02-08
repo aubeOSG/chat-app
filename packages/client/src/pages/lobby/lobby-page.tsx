@@ -106,7 +106,7 @@ export const Content = () => {
   return (
     <div className="lobby-page">
       <section className="content">
-        <header>
+        <header className="toolbar">
           <h2>Chat App</h2>
 
           <div className="actions">

@@ -32,8 +32,9 @@
   &-link {
     margin: 0.5rem;
     padding: 1.25rem 1.5rem;
-    border: 1px solid var(--color-border);
+    border: 1px solid transparent;
     border-radius: 6px;
+    cursor: pointer;
 
     &.current-room {
       border: 1px solid var(--color-selected);
@@ -52,9 +53,16 @@
   flex-direction: column;
   height: 100%;
 
+  & header,
+  & footer {
+    background-color: transparent;
+  }
+
   & header {
     justify-content: flex-start;
-    background-color: var(--color-scale-gray-6);
+    padding: 0.75rem;
+    height: 80px;
+    border-bottom: 1px solid var(--color-border);
 
     & .user {
       padding: 0.15rem;
@@ -63,8 +71,31 @@
     }
   }
 
-  & footer {
-    height: 182px;
-    background-color: var(--color-scale-gray-6);
+  & .message-box {
+    height: 164px;
+    align-items: stretch;
+    padding: 0.25rem;
+
+    & form {
+      display: flex;
+      margin: 0;
+      width: calc(100% - 1.5rem);
+      height: calc(100% - 1.5rem);
+      align-items: stretch;
+      align-self: center;
+
+      & textarea {
+        height: 100%;
+        border: none;
+        background-color: var(--color-scale-gray-8);
+        padding: 0.5rem;
+        border-radius: 6px 0px 0px 6px;
+      }
+
+      & .btn {
+        margin: 0;
+        border-radius: 0px 6px 6px 0px;
+      }
+    }
   }
 }
