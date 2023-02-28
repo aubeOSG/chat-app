@@ -1,9 +1,9 @@
 import 'react-quill/dist/quill.snow.css';
+import './_document.scss';
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import * as Automerge from '@automerge/automerge';
 import localforage from 'localforage';
 import Quill from 'react-quill';
-import ReactQuill from 'react-quill';
 import { DocumentEntity } from './document.types';
 
 export const Document = () => {
@@ -36,11 +36,7 @@ export const Document = () => {
 
   return (
     <section className="document-editor">
-      <Quill
-        theme="snow"
-        value="{editorValue}"
-        onChange={setEditorValue}
-      ></Quill>
+      <Quill theme="snow" value={editorValue} onChange={setEditorValue}></Quill>
     </section>
   );
 };

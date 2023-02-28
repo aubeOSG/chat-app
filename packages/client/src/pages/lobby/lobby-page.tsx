@@ -148,9 +148,9 @@ export const Content = () => {
           </section>
           <section className="content room-view">
             {activeRoom.isDefault ? (
-              <components.Room />
-            ) : (
               <components.Document />
+            ) : (
+              <components.Room />
             )}
           </section>
         </main>
