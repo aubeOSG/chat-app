@@ -2,7 +2,6 @@ import 'react-quill/dist/quill.snow.css';
 import './_document.scss';
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import * as Automerge from '@automerge/automerge';
-import localforage from 'localforage';
 import Quill from 'react-quill';
 import { DocumentEntity } from './document.types';
 

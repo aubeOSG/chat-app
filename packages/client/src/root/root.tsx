@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { pages } from '../pages';
 import { socketer } from '../services';
-import { lobby, users, rooms, messages } from '../models';
+import { lobby, users, rooms, messages, documents } from '../models';
 
 export const AppRoutes = () => {
   const pageNames = Object.keys(pages);
@@ -28,6 +28,7 @@ export const Root = () => {
   lobby.hooks.useProcessor();
   rooms.hooks.useProcessor();
   messages.hooks.useProcessor();
+  documents.hooks.useProcessor();
 
   const isConnected = socketer.hooks.useConnection();
 
@@ -37,6 +38,7 @@ export const Root = () => {
     users.hooks.addEvents();
     rooms.hooks.addEvents();
     messages.hooks.addEvents();
+    documents.hooks.addEvents();
     socketer.hooks.addEvents();
 
     return () => {
@@ -45,6 +47,7 @@ export const Root = () => {
       users.hooks.cleanupEvents();
       rooms.hooks.cleanupEvents();
       messages.hooks.cleanupEvents();
+      documents.hooks.cleanupEvents();
     };
   }, []);
 

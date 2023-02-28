@@ -7,6 +7,7 @@ import lobby from './lobby';
 import users from './users';
 import messages from './messages';
 import rooms from './rooms';
+import documents from './documents';
 
 export const Route = '/api';
 
@@ -16,6 +17,7 @@ export const initRest = (app: Application) => {
   registerEndpointAll(router, users.api.endpoints);
   registerEndpointAll(router, messages.api.endpoints);
   registerEndpointAll(router, rooms.api.endpoints);
+  registerEndpointAll(router, documents.api.endpoints);
   app.use(Route, router);
 };
 
@@ -56,6 +58,7 @@ export const initSockets = (app: Application, server: http.Server) => {
     users.socket.init(io, socket, newUser);
     messages.socket.init(io, socket, newUser);
     rooms.socket.init(io, socket, newUser);
+    documents.socket.init(io, socket, newUser);
   });
 
   io.listen(server);
