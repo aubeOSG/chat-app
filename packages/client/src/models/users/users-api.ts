@@ -9,6 +9,10 @@ export const list = (): AxiosPromise<{ users: Array<User> }> => {
 };
 
 export const update = (user: User) => {
+  if (!socketer.hooks.io) {
+    return;
+  }
+
   socketer.hooks.io.emit('user-update', { user });
 };
 

@@ -6,6 +6,7 @@ const appPath = path.join(staticPath, 'index.html');
 
 export const init = (app: express.Application) => {
   app.use('/public', express.static(staticPath));
+  app.use('/public/*', express.static(staticPath));
 
   app.get('/app', (req, res) => {
     res.sendFile(appPath);

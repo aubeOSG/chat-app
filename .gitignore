@@ -102,6 +102,7 @@ dist
 
 # Build Output
 .parcel-cache
+/**/*.scss.json
  
 # Mac
 .DS_Store

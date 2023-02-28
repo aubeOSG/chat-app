@@ -1,11 +1,19 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "lib": ["DOM", "DOM.iterable", "ES5", "ES6"],
+    "lib": [
+      "DOM",
+      "DOM.iterable",
+      "es5",
+      "es6",
+      "esnext",
+      "ES5",
+      "ES6",
+      "ESNext"
+    ],
     "jsx": "react",
-    "module": "ESNext",
     "moduleResolution": "node",
-    "target": "ESNext",
+    "target": "esnext",
     "allowJs": true,
     "sourceMap": true,
     "strict": true,
@@ -27,5 +35,5 @@
     "declarationMap": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "types/*.d.ts"],
-  "exclude": ["build", "dist", "node_modules"]
+  "exclude": ["build", "dist", "node_modules", "src/**/*.html"]
 }

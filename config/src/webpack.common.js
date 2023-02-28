@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssConfig = require('./.postcssrc.json');
@@ -48,17 +49,18 @@ const fileLoader = {
     name: '[name].[ext]',
   },
 };
+const tsLoader = {
+  loader: 'ts-loader',
+  options: {
+    configFile: '../tsconfig.json',
+  },
+};
 
 module.exports = {
   mode: 'production',
   target: 'web',
-  devtool: 'source-map',
+  devtool: 'eval-cheap-source-map',
   module: {
-    noParse: [
-      require.resolve('react'),
-      require.resolve('react-dom'),
-      require.resolve('react-dom/server'),
-    ],
     rules: [
       {
         test: /\.(sa|sc|c)ss$/,
@@ -66,7 +68,7 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: [tsLoader],
       },
     ],
   },
@@ -75,14 +77,9 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: '[name].[chunkhash].css',
     }),
   ],
-  externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
-    'react-dom/server': 'ReactDOMServer',
-  },
   optimization: {
     minimize: true,
     minimizer: [

@@ -3,3 +3,4 @@ assets/*
 node_modules/*
 .vscode/*
 .parcel-cache/*
+/**/*.scss.json
