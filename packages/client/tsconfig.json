@@ -3,7 +3,7 @@
   "compilerOptions": {
     "types": ["@chat-app/config/src/typings"],
     "outDir": "dist",
-    "noEmit": false,
+    "noEmit": true,
     "declaration": false,
     "declarationMap": false
   },

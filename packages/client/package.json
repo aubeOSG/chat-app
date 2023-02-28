@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "clean": "rimraf dist",
-    "watch": "nodemon --watch ./src/index.tsx --exec yarn run build",
-    "build": "yarn clean && vite build"
+    "watch": "vite build --watch",
+    "build": "yarn clean && tsc && vite build"
   },
   "eslintConfig": {
     "extends": "@chat-app/config"
