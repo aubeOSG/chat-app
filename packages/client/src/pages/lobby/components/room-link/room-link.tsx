@@ -30,8 +30,6 @@ export const RoomLink = ({ className, room, ...props }: RoomLinkProps) => {
     );
   }, [room.userIds.length, allUsers.length]);
 
-  console.log('allusers', allUsers);
-
   return (
     <div className={classes} onClick={() => joinRoom(room)}>
       <div>{room.name}</div>

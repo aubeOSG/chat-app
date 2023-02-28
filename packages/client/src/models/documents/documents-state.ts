@@ -4,6 +4,10 @@ import { StateConfig } from '../../services';
 
 export const initialState = {
   documents: [],
+  activeDoc: {
+    userId: '',
+    document: new Uint8Array(),
+  },
 };
 
 export const config: StateConfig = {
@@ -22,6 +26,15 @@ export const config: StateConfig = {
     resetDocuments: (state, action) => {
       state.documents = initialState.documents;
     },
+    setActiveDoc: (state, action) => {
+      if (state.activeDoc.document.byteLength !== action.payload.document.byteLength) {
+        console.debug('setting active doc', action.payload);
+        state.activeDoc = action.payload;
+      }
+    },
+    resetActiveDoc: (state, action) => {
+      state.activeDoc = initialState.activeDoc;
+    },
   },
 };
 
@@ -32,6 +45,8 @@ export const {
   setDocuments,
   addDocument,
   resetDocuments,
+  setActiveDoc,
+  resetActiveDoc,
 } = slice.actions;
 
 export const reducer = slice.reducer;

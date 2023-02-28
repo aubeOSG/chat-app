@@ -14,7 +14,7 @@ export const changed = (data: DocumentData) => {
     return;
   }
 
-  socketer.hooks.io.emit('document-changed', { data });
+  socketer.hooks.io.emit('document-changed', data);
 };
 
 export default {

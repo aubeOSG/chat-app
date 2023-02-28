@@ -25,14 +25,14 @@ export const addEvents = () => {
   }
 
   socketer.hooks.io.on('lobby-joined', (req) => {
-    console.log('lobby joined', req);
+    console.debug('lobby joined', req);
     setTimeout(() => {
       processor.dispatch(state.setUpdatedBy(req.data.user.id));
     }, 150);
   });
 
   socketer.hooks.io.on('lobby-left', (req) => {
-    console.log('lobby left', req);
+    console.debug('lobby left', req);
     setTimeout(() => {
       processor.dispatch(state.setUpdatedBy(req.data.user.id));
     }, 150);

@@ -40,7 +40,7 @@ export const config: StateConfig = {
       const idx = utils.list.indexBy(state.users, 'id', action.payload.id);
 
       if (idx === -1) {
-        console.log('unable to update user list: user not found');
+        console.warn('unable to update user list: user not found');
         return;
       }
 

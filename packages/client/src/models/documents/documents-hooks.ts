@@ -25,14 +25,18 @@ export const addEvents = () => {
     return;
   }
 
-  socketer.hooks.io.on('document-changed', (req) => {
+  socketer.hooks.io.on('document-updated', (req) => {
+    if (!processor.dispatch) {
+      console.warn('unable to update document: processor not ready');
+    }
+
     if (req.error) {
       console.error(req.message);
       return;
     }
 
     console.debug('document changed', req);
-    //
+    processor.dispatch(state.setActiveDoc(req.data));
   });
 };
 
@@ -61,6 +65,21 @@ export const setDocuments = (data: Array<DocumentData>) => {
   processor.dispatch(state.setDocuments(data));
 };
 
+export const useActiveDoc = () => {
+  return useSelector((data: RootState) => data[state.config.name].activeDoc);
+};
+
+export const setActiveDoc = (document: DocumentData, userId: string) => {
+  if (!processor.dispatch) {
+    console.warn('unable to set messages: processor not ready');
+  }
+
+  processor.dispatch(state.setActiveDoc({
+    userId,
+    document,
+  }));
+};
+
 export default {
  useProcessor,
  addEvents,
@@ -68,4 +87,6 @@ export default {
  useState,
  useDocuments,
  setDocuments,
+ useActiveDoc,
+ setActiveDoc,
 };

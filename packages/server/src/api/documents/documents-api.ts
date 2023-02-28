@@ -22,7 +22,7 @@ export const _add = (doc: DocumentData, user: User) => {
     error: false,
     data: {
       document: doc,
-      user,
+      userId: user.id,
     },
   };
 };
