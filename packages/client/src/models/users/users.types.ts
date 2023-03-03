@@ -1,9 +1,8 @@
+import { Avatar } from '../avatars/avatars.types';
+
 export type UserInfo = {
   name: string;
-  avatar: {
-    label: string;
-    key: string;
-  };
+  avatar: Avatar;
 };
 
 export type User = {

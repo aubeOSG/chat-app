@@ -1,8 +1,14 @@
 export type Avatar = {
   label: string;
+  key: string;
+};
+
+export type AvatarData = {
+  label: string;
+  color: string;
   image: string;
 };
 
 export type Avatars = {
-  [key: string]: Avatar;
+  [key: string]: AvatarData;
 };

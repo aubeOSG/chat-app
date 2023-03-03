@@ -2,9 +2,17 @@ import 'react-quill/dist/quill.snow.css';
 import './_document.scss';
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import * as Automerge from '@automerge/automerge';
-import Quill from 'react-quill';
+import Quill, { Quill as QuillCore } from 'react-quill';
+import QuillCursors, { Cursor } from 'quill-cursors';
 import { DocumentEntity } from './document.types';
-import { documents, users } from '../../../../models';
+import {
+  documents,
+  DocumentSelection,
+  users,
+  avatars,
+} from '../../../../models';
+
+QuillCore.register('modules/cursors', QuillCursors);
 
 export const Document = () => {
   const document = useRef<DocumentEntity>(Automerge.init());
@@ -12,6 +20,17 @@ export const Document = () => {
   const me = users.hooks.useMe();
   const documentListProgress = useRef(false);
   const [editorValue, setEditorValue] = useState('');
+  const quillNodeRef = useRef<Quill>(null);
+  const activeUsers: { [key: string]: DocumentSelection } =
+    documents.hooks.useActiveSelection();
+  const quillOpts = {
+    modules: {
+      clipboard: {
+        matchVisual: false,
+      },
+      cursors: true,
+    },
+  };
 
   const createDoc = useCallback(() => {
     console.debug('creating document');
@@ -82,6 +101,27 @@ export const Document = () => {
     }, 0);
   };
 
+  const handleSelection = (range, source, editor) => {
+    const isUserSelection = source === 'user';
+    const isUserChange = source === 'silent' && range.index > 0;
+
+    if (!isUserSelection && !isUserChange) {
+      return;
+    }
+
+    if (range === null) {
+      range = {
+        index: -1,
+        length: -1,
+      };
+    }
+
+    documents.api.selection({
+      user: me,
+      range,
+    });
+  };
+
   useEffect(() => {
     if (activeDoc.userId !== me.id && document.current.data) {
       const binary = new Uint8Array(activeDoc.document);
@@ -102,20 +142,57 @@ export const Document = () => {
     getDocs();
   }, []);
 
-  const quillOpts = {
-    modules: {
-      clipboard: {
-        matchVisual: false,
-      },
-    },
-  };
+  useEffect(() => {
+    if (!quillNodeRef.current) {
+      return;
+    }
+
+    const editor = quillNodeRef.current.editor;
+
+    if (!editor) {
+      return;
+    }
+
+    const activeUserList = Object.keys(activeUsers);
+
+    if (!activeUserList || !activeUserList.length) {
+      return;
+    }
+
+    const cursors = editor.getModule('cursors');
+    let selection;
+    let cursor: Cursor;
+
+    for (let i = 0; i < activeUserList.length; i++) {
+      if (activeUsers[activeUserList[i]].user.id === me.id) {
+        continue;
+      }
+
+      selection = activeUsers[activeUserList[i]];
+
+      if (selection.range.index === -1) {
+        cursors.removeCursor(selection.user.id);
+      } else {
+        const cursorClr = avatars.api.getColor(selection.user.info.avatar.key);
+
+        cursor = cursors.createCursor(
+          selection.user.id,
+          selection.user.info.name,
+          cursorClr
+        );
+        cursors.moveCursor(selection.user.id, selection.range);
+      }
+    }
+  }, [quillNodeRef, activeUsers]);
 
   return (
     <section className="document-editor">
       <Quill
+        ref={quillNodeRef}
         theme="snow"
         value={editorValue}
         onChange={handleUpdate}
+        onChangeSelection={handleSelection}
         modules={quillOpts.modules}
       ></Quill>
     </section>

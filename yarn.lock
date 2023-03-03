@@ -7293,6 +7293,11 @@ quick-lru@^4.0.1:
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-4.0.1.tgz#5b8878f113a58217848c6482026c73e1ba57727f"
   integrity sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==
 
+quill-cursors@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/quill-cursors/-/quill-cursors-4.0.2.tgz#430faf15fbb985389863fc563d8ad120ab3c834a"
+  integrity sha512-/5mEfB6rDXwBy9rt3XieMKmQE8+OMnMBi2DFwea3t06QXH6i/NsICpteEoC++WGkQ/qyurIACUNnY7eBVh4Bmg==
+
 quill-delta@^3.6.2:
   version "3.6.3"
   resolved "https://registry.yarnpkg.com/quill-delta/-/quill-delta-3.6.3.tgz#b19fd2b89412301c60e1ff213d8d860eac0f1032"

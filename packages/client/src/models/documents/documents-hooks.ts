@@ -38,6 +38,20 @@ export const addEvents = () => {
     console.debug('document changed', req);
     processor.dispatch(state.setActiveDoc(req.data));
   });
+
+  socketer.hooks.io.on('document-selected', (req) => {
+    if (!processor.dispatch) {
+      console.warn('unable to update document: processor not ready');
+    }
+
+    if (req.error) {
+      console.error(req.message);
+      return;
+    }
+
+    console.debug('document selected', req);
+    processor.dispatch(state.setActiveSelection(req));
+  });
 };
 
 export const cleanupEvents = () => {
@@ -47,6 +61,7 @@ export const cleanupEvents = () => {
   }
 
   socketer.hooks.io.off('document-changed');
+  socketer.hooks.io.off('document-selected');
 };
 
 export const useState = () => {
@@ -80,6 +95,10 @@ export const setActiveDoc = (document: DocumentData, userId: string) => {
   }));
 };
 
+export const useActiveSelection = () => {
+  return useSelector((data: RootState) => data[state.config.name].activeSelection);
+};
+
 export default {
  useProcessor,
  addEvents,
@@ -89,4 +108,5 @@ export default {
  setDocuments,
  useActiveDoc,
  setActiveDoc,
+ useActiveSelection,
 };

@@ -164,11 +164,11 @@ export const list = [
     key: 'sloth'
   },
   {
-    label: 'dear',
-    key: 'dear'
+    label: 'deer',
+    key: 'deer'
   },
   {
-    label: 'griaffe',
+    label: 'giraffe',
     key: 'giraffe'
   },
   {

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { DocumentSelection } from './documents.types';
 import utils from '../../utils';
 import { StateConfig } from '../../services';
 
@@ -8,6 +9,7 @@ export const initialState = {
     userId: '',
     document: new Uint8Array(),
   },
+  activeSelection: {},
 };
 
 export const config: StateConfig = {
@@ -35,6 +37,14 @@ export const config: StateConfig = {
     resetActiveDoc: (state, action) => {
       state.activeDoc = initialState.activeDoc;
     },
+    setActiveSelection: (state, action) => {
+      const selection: DocumentSelection = action.payload;
+
+      state.activeSelection[selection.user.id] = selection;
+    },
+    resetActiveSelection: (state, action) => {
+      state.activeSelection = initialState.activeSelection;
+    },
   },
 };
 
@@ -47,6 +57,8 @@ export const {
   resetDocuments,
   setActiveDoc,
   resetActiveDoc,
+  setActiveSelection,
+  resetActiveSelection,
 } = slice.actions;
 
 export const reducer = slice.reducer;

@@ -1,6 +1,16 @@
 .document-editor {
   height: calc(100vh - 108px);
 
+  & .ql-container {
+    background-color: #ffffff;
+    color: var(--color-scale-black);
+    border-color: var(--color-border);
+  }
+
+  & .ql-toolbar.ql-snow {
+    border-color: var(--color-border);
+  }
+
   & .ql-snow .ql-stroke,
   & .ql-toolbar.ql-snow .ql-picker-label,
   & .ql-snow .ql-picker.ql-header .ql-picker-label:before,
