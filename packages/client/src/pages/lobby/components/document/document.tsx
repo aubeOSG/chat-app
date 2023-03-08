@@ -2,7 +2,7 @@ import 'react-quill/dist/quill.snow.css';
 import './_document.scss';
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import * as Automerge from '@automerge/automerge';
-import Quill, { Quill as QuillCore } from 'react-quill';
+import Quill, { Quill as QuillCore, UnprivilegedEditor } from 'react-quill';
 import QuillCursors, { Cursor } from 'quill-cursors';
 import { DocumentEntity } from './document.types';
 import {
@@ -13,6 +13,13 @@ import {
 } from '../../../../models';
 
 QuillCore.register('modules/cursors', QuillCursors);
+
+const Block = QuillCore.import('blots/block');
+
+Block.tagName = 'DIV';
+Block.className = 'document-content';
+
+QuillCore.register(Block, true);
 
 export const Document = () => {
   const document = useRef<DocumentEntity>(Automerge.init());
@@ -25,9 +32,6 @@ export const Document = () => {
     documents.hooks.useActiveSelection();
   const quillOpts = {
     modules: {
-      clipboard: {
-        matchVisual: false,
-      },
       cursors: true,
     },
   };
@@ -46,8 +50,8 @@ export const Document = () => {
   }, []);
 
   const loadDoc = useCallback((data) => {
-    console.debug('loading document', data);
     document.current = Automerge.load(data);
+    console.debug('loading document', document.current.data[0].text);
     setEditorValue(document.current.data[0].text);
   }, []);
 
@@ -79,7 +83,7 @@ export const Document = () => {
       });
   }, []);
 
-  const handleUpdate = (val, delta, source) => {
+  const handleUpdate = (val, delta, source, editor: UnprivilegedEditor) => {
     setEditorValue(val);
 
     if (source !== 'user' || !document.current.data) {
@@ -88,12 +92,13 @@ export const Document = () => {
 
     const newDoc = Automerge.change(document.current, (oldDocument) => {
       oldDocument.data[0].text = val;
-      console.debug('document updated');
     });
     const saveData = Automerge.save(newDoc);
 
     document.current = newDoc;
     documents.api.changed(saveData);
+    const range = editor.getSelection();
+    handleSelection(range, source, editor);
     setTimeout(() => {
       // without this timeout, quill will reset the cursor position after typing
       // the first letter of a empty document
@@ -101,7 +106,11 @@ export const Document = () => {
     }, 0);
   };
 
-  const handleSelection = (range, source, editor) => {
+  const handleSelection = (range, source, editor: UnprivilegedEditor) => {
+    if (!range) {
+      return;
+    }
+
     const isUserSelection = source === 'user';
     const isUserChange = source === 'silent' && range.index > 0;
 

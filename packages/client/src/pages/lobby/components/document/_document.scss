@@ -20,3 +20,8 @@
     stroke: var(--color-scale-white);
   }
 }
+
+.document-content {
+  font-family: 'Courier New', Courier, monospace;
+  white-space: pre-wrap !important;
+}
