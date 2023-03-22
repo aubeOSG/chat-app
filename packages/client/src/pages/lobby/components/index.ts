@@ -11,10 +11,12 @@ export const RoomLink = roomLink.RoomLink;
 
 export * from './document/document.types';
 export const Document = document.Document;
+export const Editor = document.Editor;
 
 export default {
   overlays,
   Room,
   RoomLink,
   Document,
+  Editor,
 };

@@ -28,7 +28,8 @@ export const Root = () => {
   lobby.hooks.useProcessor();
   rooms.hooks.useProcessor();
   messages.hooks.useProcessor();
-  documents.hooks.useProcessor();
+  // documents.hooks.useProcessor();
+  documents.yHooks.useProcessor();
 
   const isConnected = socketer.hooks.useConnection();
 
@@ -38,7 +39,7 @@ export const Root = () => {
     users.hooks.addEvents();
     rooms.hooks.addEvents();
     messages.hooks.addEvents();
-    documents.hooks.addEvents();
+    // documents.hooks.addEvents();
     socketer.hooks.addEvents();
 
     return () => {
@@ -47,7 +48,7 @@ export const Root = () => {
       users.hooks.cleanupEvents();
       rooms.hooks.cleanupEvents();
       messages.hooks.cleanupEvents();
-      documents.hooks.cleanupEvents();
+      // documents.hooks.cleanupEvents();
     };
   }, []);
 

@@ -15,12 +15,13 @@ export const list: express.Handler = (req, res) => {
   });
 };
 
-export const _add = (doc: DocumentData, user: User) => {
+export const _add = (doc: DocumentData, user: User, id: number) => {
   _document.data = doc;
 
   return {
     error: false,
     data: {
+      id,
       document: doc,
       userId: user.id,
     },
